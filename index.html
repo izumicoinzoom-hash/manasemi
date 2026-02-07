@@ -1,738 +1,553 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マネゼミ思考</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>マネゼミ思考 | Hybrid Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans JP', 'sans-serif'],
+                        heading: ['Zen Kaku Gothic New', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 2px 8px rgba(0, 0, 0, 0.04)',
+                        'paper': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            line-height: 1.8;
-        }
-        h1, h2, h3 {
-            font-family: 'Zen Kaku Gothic New', sans-serif;
-        }
-        .paper {
-            background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .formula-box {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
-            border-left: 5px solid #0284c7;
-        }
-        .section-badge {
-            background-color: #0f172a;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
-        .quote-box {
-            position: relative;
-            background-color: #fffbeb;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid #fcd34d;
-        }
-        .quote-box::before {
-            content: "“";
-            font-size: 4rem;
-            position: absolute;
-            top: -1rem;
-            left: 0.5rem;
-            color: #fbbf24;
-            opacity: 0.5;
-            font-family: serif;
-        }
+        /* 共通スタイル */
+        body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* マイクロインタラクション用のスタイル */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: opacity, transform;
-        }
+        /* モバイル用アニメーション */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+        @keyframes sweep { 0% {opacity: 0; transform: translateY(-10px)} 100% {opacity: 1; transform: translateY(0)} }
         
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* PC/印刷用スタイル */
+        .pc-paper { background-color: white; }
+        .pc-formula-box { background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 5px solid #0284c7; }
+        .pc-section-badge { background-color: #0f172a; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: bold; display: inline-block; margin-bottom: 0.5rem; }
+        .pc-quote-box { position: relative; background-color: #fffbeb; border-radius: 0.5rem; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid #fcd34d; }
+        .pc-quote-box::before { content: "“"; font-size: 4rem; position: absolute; top: -1rem; left: 0.5rem; color: #fbbf24; opacity: 0.5; font-family: serif; }
 
+        /* 表示切り替え用 */
+        .view-hidden { display: none !important; }
+        
         @media print {
+            .mode-switch-btn, .mobile-only-nav { display: none !important; }
+            #mobile-view { display: none !important; }
+            #pc-view { display: block !important; }
             body { background-color: white; }
-            .paper { box-shadow: none; padding: 0; }
-            .fade-in-section { opacity: 1 !important; transform: none !important; }
+            .pc-paper { box-shadow: none; padding: 0; max-width: 100%; }
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="bg-gray-100 text-gray-800 antialiased pb-24 md:pb-0 transition-colors duration-500">
 
-    <div class="max-w-4xl mx-auto paper p-8 md:p-12 rounded-lg">
-        
-        <!-- Header Section -->
-        <header class="mb-12 border-b-2 border-gray-200 pb-6 fade-in-section">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                <h1 class="text-3xl md:text-4xl font-bold text-slate-800">マネゼミ思考</h1>
-            </div>
+    <!-- ========================================== -->
+    <!-- モバイルビュー (Mobile View) -->
+    <!-- ========================================== -->
+    <div id="mobile-view" class="view-hidden">
+        <!-- プログレスバー -->
+        <div class="fixed top-0 left-0 w-full h-1 z-50 bg-gray-200">
+            <div id="progress-bar" class="h-full bg-blue-600 w-0 transition-all duration-300"></div>
+        </div>
 
-            <div class="bg-slate-50 p-6 rounded-lg mb-6 fade-in-section">
-                <p class="font-bold text-lg mb-2">自問自答 ― 仮説検証</p>
-                <p class="mb-4">主体性・・承認欲求</p>
-                
-                <div class="formula-box p-4 rounded mb-4">
-                    <p class="text-xl md:text-2xl font-bold text-center text-slate-800">
-                        成果 ＝ 考え方 × 熱意 × 能力<span class="text-sm font-normal text-gray-600">（習慣化された行動）</span>
-                    </p>
+        <!-- ヘッダーエリア -->
+        <header class="pt-8 pb-4 px-5 bg-white rounded-b-3xl shadow-soft mb-6">
+            <p class="text-xs font-bold text-gray-400 mb-1 tracking-wider">令和7年11月28日</p>
+            <h1 class="text-2xl font-bold text-gray-900 leading-tight mb-4">マネゼミ思考<br><span class="text-base font-normal text-gray-600">自問自答 ― 仮説検証</span></h1>
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-5 text-white shadow-lg">
+                <p class="text-xs text-slate-400 mb-1 font-bold tracking-widest">SUCCESS FORMULA</p>
+                <div class="flex items-end items-baseline gap-1 flex-wrap">
+                    <span class="text-2xl font-bold">成果</span>
+                    <span class="text-lg">=</span>
+                    <span class="text-lg font-medium">考え方</span>
+                    <span class="text-xs mx-1">×</span>
+                    <span class="text-lg font-medium">熱意</span>
+                    <span class="text-xs mx-1">×</span>
+                    <span class="text-lg font-medium">能力</span>
                 </div>
-
-                <ul class="list-disc pl-5 space-y-1 text-gray-700">
-                    <li>考え方（思考）・・習慣化された考え</li>
-                    <li>豊かな生活環境づくり</li>
-                    <li>豊かな心と豊かな経済の調和</li>
-                </ul>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6 fade-in-section">
-                <div>
-                    <h3 class="font-bold text-slate-700 border-b border-slate-300 mb-2">バランス思考</h3>
-                    <p class="text-sm">宇宙の真理・・宇宙は表裏一体と左右バランスで（コントロール）保たれている<br>
-                    成長（リスクを伴う）進化し潜在意識はより安全安心を求める<br>
-                    能力（習慣化された行動）<br>
-                    思考の体系化</p>
-                </div>
-                <div class="bg-blue-50 p-4 rounded border border-blue-100 flex items-center">
-                    <p class="font-bold text-blue-900">
-                        周りを動かせる良いリーダーなるためには、自分を知り依存体質から脱却して、自己を確立することが大切である。
-                    </p>
-                </div>
+                <p class="text-[10px] text-slate-400 mt-2 text-right">※能力＝習慣化された行動</p>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="space-y-12">
-            
-            <div class="text-center mb-8 fade-in-section">
-                <span class="inline-block px-8 py-2 border-2 border-slate-800 text-slate-800 text-xl font-bold tracking-widest uppercase">マネゼミ講座</span>
+        <!-- クイックナビ -->
+        <nav class="px-5 mb-8 mobile-only-nav">
+            <p class="text-xs font-bold text-gray-400 mb-2 ml-1">CHAPTERS</p>
+            <div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2 snap-x">
+                <button onclick="scrollToSection('m-sec1')" class="snap-start shrink-0 bg-white border border-gray-100 px-4 py-2 rounded-full shadow-card text-sm font-bold text-blue-600 whitespace-nowrap active:bg-blue-50">1. 人間観</button>
+                <button onclick="scrollToSection('m-sec2')" class="snap-start shrink-0 bg-white border border-gray-100 px-4 py-2 rounded-full shadow-card text-sm font-bold text-green-600 whitespace-nowrap active:bg-green-50">2. 人生観</button>
+                <button onclick="scrollToSection('m-sec3')" class="snap-start shrink-0 bg-white border border-gray-100 px-4 py-2 rounded-full shadow-card text-sm font-bold text-purple-600 whitespace-nowrap active:bg-purple-50">3. 意思決定</button>
+                <button onclick="scrollToSection('m-sec4')" class="snap-start shrink-0 bg-white border border-gray-100 px-4 py-2 rounded-full shadow-card text-sm font-bold text-orange-600 whitespace-nowrap active:bg-orange-50">4. 仕事観</button>
+                <button onclick="scrollToSection('m-sec5')" class="snap-start shrink-0 bg-white border border-gray-100 px-4 py-2 rounded-full shadow-card text-sm font-bold text-red-600 whitespace-nowrap active:bg-red-50">5. リーダー</button>
+                <button onclick="scrollToSection('m-sec6')" class="snap-start shrink-0 bg-white border border-gray-100 px-4 py-2 rounded-full shadow-card text-sm font-bold text-pink-600 whitespace-nowrap active:bg-pink-50">6. 熱意</button>
             </div>
+        </nav>
 
-            <!-- Section 1: Human View -->
-            <section>
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center fade-in-section">
-                    <span class="w-2 h-8 bg-blue-600 mr-3 rounded"></span>人間観
-                </h2>
-
-                <div class="grid gap-6">
-                    <!-- 1-1 -->
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge">1-1</span>
-                        <h3 class="text-lg font-bold mb-3">人間は？</h3>
-                        <p class="mb-4 text-gray-700">
-                            人と人間は違う、人は人類の中の一種であり多くの人類の中から、現在我々ホモサピエンスだけが人間として生存している。人間は本能として動物と違って同族だけでなく、多くの仲間が集って交流し進化してきた。そこには必然としてリーダー(ボス)が生れた。部族の集まり。
-                        </p>
-                        <h4 class="font-bold text-slate-700 mt-4 mb-2">人間関係</h4>
-                        <p class="mb-2">ひとは人と交流する事で、人間としての存在を確認する事が出来る。<br>ひとは人との交わりをとうして自分を確立する・・社会性</p>
-                        <div class="bg-slate-50 p-3 rounded text-sm mb-4">
-                            <p>俺が、俺がのが（我）を捨ててお陰、おかげのげで生きよ！</p>
-                            <p>己を治め、人と交わる・・渋沢栄一（己を治めの部分は自己確立）</p>
-                            <p>利他の心・自他共に喜べる心・・共同感覚</p>
-                            <ul class="list-disc pl-5 mt-1">
-                                <li>与えると周りからの喜びを得られる</li>
-                                <li>信用・・約束</li>
-                                <li>信頼・・繋がり</li>
-                            </ul>
+        <!-- メインコンテンツ (Mobile) -->
+        <main class="px-4 space-y-4">
+            <!-- 1. 人間観 -->
+            <section id="m-sec1">
+                <details class="group bg-white rounded-2xl shadow-card overflow-hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer bg-white sticky top-0 z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">1</div>
+                            <h2 class="text-lg font-bold text-gray-800">人間観</h2>
                         </div>
-                        <h4 class="font-bold text-slate-700 mb-2">人間の強さ</h4>
-                        <p class="text-sm mb-2">多くの事を表現する言葉を持つ・・感想発表訓練・グループ議論</p>
-                        <ul class="list-none space-y-1 text-sm bg-blue-50 p-3 rounded">
-                            <li><span class="font-bold text-blue-800">1人称</span>：自分は、が・・自主</li>
-                            <li><span class="font-bold text-blue-800">2人称</span>：貴方と、も・・共感・協力</li>
-                            <li><span class="font-bold text-blue-800">3人称</span>：皆も、で・・連帯 ＜言葉によってより強い連帯になる＞</li>
-                        </ul>
-                        <p class="text-sm mt-2 text-right text-gray-500">せっかくの言葉を人間は持っているので話すことが苦手なのはもったいない</p>
-                    </div>
-
-                    <!-- 1-2 -->
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge">1-2</span>
-                        <h3 class="text-lg font-bold mb-3">成長（本質では人間は皆成長したい）</h3>
-                        <p class="text-gray-700 mb-4">
-                            ひとは生まれながらにして【より良くなろう】とする健全な成長欲求を持ているが、昨日の自分と今日の自分の違いは良く分からない。<br>
-                            いつのまにか成長欲求をあきらめたり、ゆがんだりしている。<br>
-                            大切なのは無理をしないで出来る、目的目標意識を持って今日も出来た！と云う自己肯定が出来る状態で、やり続けることが大切である。<span class="font-bold text-blue-600">成長は複利で伸びる！</span>
-                        </p>
-
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <h4 class="font-bold text-slate-700 border-b border-gray-300 pb-1 mb-2">関係性</h4>
-                                <p class="text-sm">自分の事は良く解らないので他人と比較して自分の事を知ろうとする。そこに感情が産まれる。</p>
-                                <ul class="text-sm list-disc pl-5 mt-2">
-                                    <li>優劣感情・・立場による上下感情（劣等感）</li>
-                                    <li>プライド・・負けじ魂で競争のエネルギーになるが、優位性が身に付くと傲慢になる</li>
-                                </ul>
-                                <p class="text-sm font-bold mt-2 text-blue-800">大切なのは縦の関係から横の繋がりの関係・・共にの共同感覚</p>
+                        <span class="transform group-open:rotate-180 transition-transform duration-300 text-gray-400">▼</span>
+                    </summary>
+                    <div class="p-5 pt-0 border-t border-gray-50">
+                        <div class="mt-4 p-4 bg-blue-50 rounded-xl">
+                            <h3 class="font-bold text-blue-900 text-sm mb-2">自己確立の要諦</h3>
+                            <p class="text-sm leading-relaxed mb-3">「俺が」の（我）を捨てて、「お陰」のげで生きよ！</p>
+                            <div class="bg-white p-3 rounded-lg text-xs text-gray-600 shadow-sm">
+                                <span class="font-bold block mb-1">渋沢栄一「己を治め、人と交わる」</span>
+                                利他の心で信用（約束）と信頼（繋がり）を築く。
                             </div>
-                            <div>
-                                <h4 class="font-bold text-slate-700 border-b border-gray-300 pb-1 mb-2">自知</h4>
-                                <p class="text-sm">人間は人間同士の交流と共に自分を知り成長する。<br>「貴方は私の鏡です。」</p>
-                                <h5 class="text-sm font-bold mt-2">自己の内面（特に行動に現れる潜在意識）</h5>
-                                <ul class="text-sm list-none space-y-1 mt-1">
-                                    <li><span class="font-bold">自己</span>：周りに対する共感</li>
-                                    <li><span class="font-bold">自我</span>：自分中心</li>
-                                </ul>
-                                <p class="text-xs text-gray-500 mt-2">※成長と共に自我は弱くならないと成長とは認められない（交流分析・TAOKチェックシート）</p>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-gray-700 text-sm mb-2">人間の強さ：言葉</h3>
+                            <div class="grid grid-cols-3 gap-2 text-center">
+                                <div class="bg-gray-50 p-2 rounded-lg"><span class="block text-xs text-gray-400">1人称</span><span class="font-bold text-sm text-blue-600">自主</span></div>
+                                <div class="bg-gray-50 p-2 rounded-lg"><span class="block text-xs text-gray-400">2人称</span><span class="font-bold text-sm text-blue-600">共感</span></div>
+                                <div class="bg-gray-50 p-2 rounded-lg"><span class="block text-xs text-gray-400">3人称</span><span class="font-bold text-sm text-blue-600">連帯</span></div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- 1-3 -->
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge">1-3</span>
-                        <h3 class="text-lg font-bold mb-3">顕在意識と潜在意識</h3>
-                        <div class="flex items-center mb-4 bg-gray-50 p-4 rounded">
-                            <div class="w-1/3 text-center border-r border-gray-300 pr-4">
-                                <span class="block text-2xl font-bold">5%</span>
-                                <span class="text-xs text-gray-500">顕在意識</span>
-                            </div>
-                            <div class="w-2/3 pl-4">
-                                <span class="block text-2xl font-bold">95%</span>
-                                <span class="text-xs text-gray-500">潜在意識（無意識）で動いている</span>
-                            </div>
-                        </div>
-                        <p class="font-bold mb-2">潜在意識に落とし込む</p>
-                        <ul class="list-disc pl-5 space-y-1 mb-4">
-                            <li>言葉の力・・アファーメーション（自己暗示）</li>
-                            <li>視覚化・・ビジョンなど実現したかのようにイメージする事で、意識を目標達成に向けて動かす</li>
-                            <li>習慣化・・能力アップ（引き金 ＞ ルーチン ＞ 報酬）</li>
-                        </ul>
-                        <div class="bg-blue-50 p-4 rounded">
-                            <h4 class="font-bold text-blue-900 mb-2">自己確立</h4>
-                            <p class="text-sm mb-1"><strong>自己理解</strong>・・自己と自我を意識する</p>
-                            <p class="text-sm mb-1 pl-4">自己肯定感・・自己受容が出来ないと他人との違いを受け容れられない。親への依存（自我欲）からの脱却。自己の存在意義を識る。</p>
-                            <p class="text-sm mb-1"><strong>自己鍛錬</strong>・・心・技・体を鍛える習慣化</p>
-                            <p class="text-sm pl-4">目的に対する現実を受け入れる。目標・行動に対する結果を承認する。自己肯定・自信。</p>
-                        </div>
-                        <div class="mt-4 border-t pt-4">
-                            <p class="font-bold">自分に強くなろう（自制心 感情のコントロール）</p>
-                            <p class="text-sm mt-1">うさぎとかめの話：うさぎの目標は常に相手に勝つことであった。かめは相手に関係なく、成果として自分に克つことであった。</p>
-                        </div>
-                    </div>
-                </div>
+                </details>
             </section>
 
-            <!-- Section 2: Life View -->
-            <section>
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center fade-in-section">
-                    <span class="w-2 h-8 bg-green-600 mr-3 rounded"></span>人生観
-                </h2>
-
-                <div class="grid gap-6">
-                    <!-- 2-1 -->
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge bg-green-900">2-1</span>
-                        <h3 class="text-lg font-bold mb-2">宇宙の真理・種の保存</h3>
-                        <p class="mb-4 text-gray-700">生物は種をする残すために生まれて成長して種を遺すし（使命感）衰えたら役目を果たして死を迎える。<br><span class="font-bold">あなたはどんな種を遺しますか？</span></p>
-
-                        <div class="quote-box">
-                            <p class="font-bold text-lg mb-2">人生色々！ 夢を持って生き抜こう！</p>
-                            <p class="italic text-gray-800">
-                                夢無き者に理想なし<br>
-                                理想無き者に計画なし<br>
-                                計画無き者に実行なし<br>
-                                実行無き者に成功なし<br>
-                                故に夢無き者に成功なし
+            <!-- 2. 人生観 -->
+            <section id="m-sec2">
+                <details class="group bg-white rounded-2xl shadow-card overflow-hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer bg-white sticky top-0 z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-sm">2</div>
+                            <h2 class="text-lg font-bold text-gray-800">人生観</h2>
+                        </div>
+                        <span class="transform group-open:rotate-180 transition-transform duration-300 text-gray-400">▼</span>
+                    </summary>
+                    <div class="p-5 pt-0 border-t border-gray-50">
+                        <div class="relative bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-400 my-4">
+                            <p class="text-sm font-bold text-gray-800 mb-2">吉田松陰の教え</p>
+                            <p class="text-xs text-gray-600 italic leading-relaxed">
+                                夢無き者に理想なし…故に夢無き者に成功なし
                             </p>
-                            <p class="text-right font-bold mt-2">― 吉田松陰</p>
                         </div>
-
-                        <div class="mb-4">
-                            <p class="font-bold">夢 ＜ 欲求・願望</p>
-                            <p class="text-sm">人は夢をもって育つ、しかし何時の間にか忘れて諦める。夢は大きくて漠然としたものであり欲求・願望の先にある。欲求願望は形姿が見えて、目標を持って追いかけ続けていると向こうから近づいてくる。</p>
-                        </div>
-
-                        <!-- マズローの図解：改善版 -->
-                        <div class="bg-gradient-to-b from-white to-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm mt-4">
-                            <h4 class="font-bold text-center text-lg mb-6 text-slate-700">マズローの5段階欲求</h4>
-                            <div class="flex flex-col items-center w-full max-w-sm mx-auto drop-shadow-lg">
-                                <!-- 5段階目 -->
-                                <div class="w-4/12 bg-indigo-600 text-white py-3 px-2 text-center rounded-t-xl relative z-50 transition hover:scale-105 duration-300 shadow-md">
-                                    <div class="text-xs font-light mb-1">第5段階</div>
-                                    <div class="font-bold text-sm md:text-base leading-tight">自己実現欲求</div>
-                                    <div class="text-[10px] opacity-80 mt-1 border-t border-indigo-400 pt-1">夢・創造</div>
-                                </div>
-                                <!-- 4段階目 -->
-                                <div class="w-6/12 bg-blue-500 text-white py-3 px-2 text-center -mt-1 relative z-40 transition hover:scale-105 duration-300 shadow-md">
-                                    <div class="text-xs font-light mb-1">第4段階</div>
-                                    <div class="font-bold text-sm md:text-base leading-tight">承認欲求</div>
-                                    <div class="text-[10px] opacity-80 mt-1 border-t border-blue-300 pt-1">個々の個・尊重</div>
-                                </div>
-                                <!-- 3段階目 -->
-                                <div class="w-8/12 bg-green-500 text-white py-3 px-2 text-center -mt-1 relative z-30 transition hover:scale-105 duration-300 shadow-md">
-                                    <div class="text-xs font-light mb-1">第3段階</div>
-                                    <div class="font-bold text-sm md:text-base leading-tight">帰属（安定）欲求</div>
-                                    <div class="text-[10px] opacity-80 mt-1 border-t border-green-300 pt-1">集団・愛情</div>
-                                </div>
-                                <!-- 2段階目 -->
-                                <div class="w-10/12 bg-yellow-500 text-white py-3 px-2 text-center -mt-1 relative z-20 transition hover:scale-105 duration-300 shadow-md">
-                                    <div class="text-xs font-light mb-1">第2段階</div>
-                                    <div class="font-bold text-sm md:text-base leading-tight">安全性欲求</div>
-                                    <div class="text-[10px] opacity-80 mt-1 border-t border-yellow-300 pt-1">身を守る・安心</div>
-                                </div>
-                                <!-- 1段階目 -->
-                                <div class="w-full bg-red-500 text-white py-3 px-2 text-center rounded-b-xl -mt-1 relative z-10 transition hover:scale-105 duration-300 shadow-md">
-                                    <div class="text-xs font-light mb-1">第1段階</div>
-                                    <div class="font-bold text-sm md:text-base leading-tight">生存（生理的）欲求</div>
-                                    <div class="text-[10px] opacity-80 mt-1 border-t border-red-300 pt-1">本能・生命維持</div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- 2-2 & 2-3 -->
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge bg-green-900 mr-2">2-2</span>
-                        <span class="section-badge bg-green-900">2-3</span>
-                        
-                        <div class="grid md:grid-cols-2 gap-8 mt-4">
-                            <div>
-                                <h3 class="font-bold border-b border-gray-300 mb-3">存在意義と志</h3>
-                                <p class="text-sm mb-2">人間は本能として自分の存在意義の答えを求めている。</p>
-                                <ul class="text-sm list-disc pl-5 mb-4">
-                                    <li>帰属欲求（安心・安定）・・自主性を求める</li>
-                                    <li>環境が安定して不安を感じないと承認欲求が現れる？</li>
-                                    <li>存在承認欲求・・主体性を求める</li>
-                                </ul>
-                                <p class="text-sm mb-2"><strong>人生理念・目的・志</strong><br>公の精神。成功する人は夢と情熱をもって志を貫く（松下幸之助）。</p>
-                                
-                                <div class="bg-slate-800 text-white p-4 rounded mt-4 text-sm">
-                                    <p class="font-bold mb-2">人生と運（考え方）</p>
-                                    <p>考え方に気を付けよう → 言葉になるから</p>
-                                    <p>言葉に気を付けよう → 行動になるから</p>
-                                    <p>行動に気を付けよう → 習慣になるから</p>
-                                    <p>習慣に気をつけよう → 人格になるから</p>
-                                    <p>人格に気をつけよう → 運になるから</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h3 class="font-bold border-b border-gray-300 mb-3">人間（世間）塞翁が馬</h3>
-                                <p class="text-sm mb-2">人生いろいろ！人生楽ありゃ苦もあるさ。</p>
-                                <div class="mb-4">
-                                    <h4 class="font-bold text-sm text-gray-700">ライフライン（振り返り）</h4>
-                                    <p class="text-xs text-gray-500 mb-2">人生上り坂ばかりはないし下り坂だけもない偶には「まさか」もあるから。</p>
-                                    <p class="text-xs">企業30年説：創業 ＞ 成長 ＞ 発展 ＞ 停滞 ＞ 衰退</p>
-                                </div>
-                                <div class="space-y-2 text-sm">
-                                    <p><span class="font-bold">過去</span>：人生脚本</p>
-                                    <p><span class="font-bold">現在</span>：不安解消 ＞ 未来への準備</p>
-                                    <p><span class="font-bold">未来</span>：夢・希望への挑戦</p>
-                                </div>
-                                <div class="mt-4 bg-green-50 p-3 rounded">
-                                    <h4 class="font-bold text-green-900 text-sm">未来への挑戦</h4>
-                                    <p class="text-xs mt-1">夢の実現像（ビジョン）。拡がる縁と運（繋がりとチャンス）。今まで繋がってきた歴史と社会環境に感謝の心を持つと縁が拡がりチャンスも芽生えます。</p>
-                                </div>
-                            </div>
+                        <h3 class="font-bold text-gray-700 text-sm mb-3 mt-6 text-center">マズローの5段階欲求</h3>
+                        <div class="flex flex-col gap-1">
+                            <div class="bg-indigo-600 text-white text-xs py-2 px-3 rounded text-center font-bold">5. 自己実現（夢・創造）</div>
+                            <div class="bg-blue-500 text-white text-xs py-2 px-3 rounded text-center font-bold mx-2">4. 承認（尊重）</div>
+                            <div class="bg-green-500 text-white text-xs py-2 px-3 rounded text-center font-bold mx-4">3. 帰属（集団・愛情）</div>
+                            <div class="bg-yellow-500 text-white text-xs py-2 px-3 rounded text-center font-bold mx-6">2. 安全性（安心）</div>
+                            <div class="bg-red-500 text-white text-xs py-2 px-3 rounded text-center font-bold mx-8">1. 生存（本能）</div>
                         </div>
                     </div>
-                </div>
+                </details>
             </section>
 
-            <!-- Section 3: Mindset & Decision -->
-            <section>
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center fade-in-section">
-                    <span class="w-2 h-8 bg-purple-600 mr-3 rounded"></span>心構えと意思決定
-                </h2>
-
-                <div class="grid gap-6">
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge bg-purple-900">3-1</span>
-                        <h3 class="text-lg font-bold mb-3">意思決定と脳の働き</h3>
-                        <p class="text-sm mb-4">あなたの意思決定（決断）が意識となり、行動をきめて結果を引き出します。決断する前には誰でも心構（心の準備）えをもっています。</p>
-                        
-                        <div class="grid grid-cols-3 gap-2 text-center text-sm mb-4">
-                            <div class="bg-purple-50 p-2 rounded"><span class="block font-bold">大脳</span>人間<br>成長発展</div>
-                            <div class="bg-purple-50 p-2 rounded"><span class="block font-bold">中脳</span>哺乳類<br>集まって衛る</div>
-                            <div class="bg-purple-50 p-2 rounded"><span class="block font-bold">小脳</span>爬虫類<br>危険から逃げる</div>
+            <!-- 3. 意思決定 -->
+            <section id="m-sec3">
+                <details class="group bg-white rounded-2xl shadow-card overflow-hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer bg-white sticky top-0 z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-sm">3</div>
+                            <h2 class="text-lg font-bold text-gray-800">意思決定</h2>
                         </div>
-                        <p class="text-sm mb-4">行動する事で報酬（覚醒）を期待してホルモン（ドーパミンなど）を出す。</p>
-
-                        <h4 class="font-bold text-slate-700 mt-4 mb-2">心構え（高く、広く、深く育む）</h4>
-                        <ul class="list-disc pl-5 text-sm space-y-1">
-                            <li>価値観・・自分の正しさの判断基準となる。</li>
-                            <li>ありたい姿・・自分の想い（私）・・個人の希望・願望</li>
-                            <li>あるべき姿・・社会環境との関わり（公）・・一般常識</li>
-                        </ul>
-                        <div class="mt-4 p-3 border border-purple-200 rounded bg-purple-50">
-                            <p class="font-bold text-sm">ルール（常識）</p>
-                            <p class="text-xs">やらなければならない事 / やった方が良いこと / やってはいけない事</p>
-                            <p class="text-right text-xs mt-1 text-purple-700">誰が決めるのかな？</p>
+                        <span class="transform group-open:rotate-180 transition-transform duration-300 text-gray-400">▼</span>
+                    </summary>
+                    <div class="p-5 pt-0 border-t border-gray-50">
+                        <div class="grid grid-cols-2 gap-3 mb-4 mt-4">
+                            <div class="bg-purple-50 p-3 rounded-xl">
+                                <p class="text-xs font-bold text-purple-800 mb-1">選択</p>
+                                <p class="text-[10px] text-gray-600">優先順位を誤らない。選択と集中。</p>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded-xl">
+                                <p class="text-xs font-bold text-purple-800 mb-1">決断</p>
+                                <p class="text-[10px] text-gray-600">不安を断ち切る覚悟。自信を持つ。</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                        <span class="section-badge bg-purple-900 mr-2">3-2</span>
-                        <span class="section-badge bg-purple-900">3-3</span>
-                        
-                        <div class="grid md:grid-cols-2 gap-6 mt-4">
-                            <div>
-                                <h3 class="font-bold mb-2">観念に注意</h3>
-                                <p class="text-sm">拘り（内面性）と囚われ（外面性）・・他人との比較。<br>固定観念・・○○でなければならないと云う思い込みを捨てる。素直な心で素直に考え素直に行動する。</p>
-                                <h4 class="font-bold mt-4 mb-1">判断・バランス思考</h4>
-                                <p class="text-sm">何が正しいかでは無く目的に対して何が合っているか（原理原則）。</p>
-                                <div class="text-xs text-gray-600 bg-gray-50 p-2 rounded mt-2">
-                                    <p>上下左右・表裏一体 / 希望・不安 / メリット・デメリット・リスク</p>
+                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+                            <h3 class="font-bold text-sm mb-2 text-gray-700">潜在意識のコントロール</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-1 h-full w-1 bg-red-400 rounded-full"></div>
+                                    <div><span class="block text-xs font-bold text-red-500">ネガティブ</span><span class="text-[10px] text-gray-500">恐怖、不安、逃避</span></div>
                                 </div>
-                                <h4 class="font-bold mt-4 mb-1">潜在意識</h4>
-                                <ul class="text-sm list-none space-y-1">
-                                    <li><span class="text-red-600 font-bold">ネガティブ思考</span>：恐怖体験・不安解消・失敗したくない・決めない・逃げる</li>
-                                    <li><span class="text-blue-600 font-bold">ポジティブ思考</span>：感動体験・成功（実現）したい願望・希望</li>
-                                </ul>
-                            </div>
-                            <div class="border-t pt-4 md:border-t-0 md:pt-0">
-                                <h3 class="font-bold mb-2">選択と決断</h3>
-                                <ul class="list-disc pl-5 text-sm space-y-2">
-                                    <li><strong>優先順位</strong>・・ボタンの掛け違えに注意。多様化に対し選択と集中. </li>
-                                    <li><strong>決断</strong>・・自分を信じて不安を断ち切る覚悟を持つ。行動すれば必ず結果が出る意識を持つ。自分を信じる＝自信となる。</li>
-                                    <li><strong>実行</strong>・・実行無き者に成功なし。</li>
-                                    <li><strong>評価</strong>・・プライドを持って他人と比較をしない。完璧主義にならない。理性と感情コントロール。</li>
-                                </ul>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-1 h-full w-1 bg-blue-400 rounded-full"></div>
+                                    <div><span class="block text-xs font-bold text-blue-500">ポジティブ</span><span class="text-[10px] text-gray-500">感動、希望、成功願望</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </details>
             </section>
 
-            <!-- Section 4: Work View -->
-            <section>
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center fade-in-section">
-                    <span class="w-2 h-8 bg-orange-500 mr-3 rounded"></span>仕事観
-                </h2>
-                
-                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6 fade-in-section">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="section-badge bg-orange-800">4-1</span>
-                        <span class="text-sm font-bold text-orange-800">価値を生み出し交換する</span>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="font-bold border-b border-orange-200 mb-2">価値とは</h3>
-                            <p class="text-sm mb-2">相手のニーズ（欲求）に対して満足の提供によって決まる。</p>
-                            <ol class="list-decimal pl-5 text-sm font-medium text-gray-700">
-                                <li>不足（持っていない）</li>
-                                <li>安全・安心</li>
-                                <li>便利</li>
-                                <li>経済的</li>
-                                <li>貴重（美術・骨董・趣味）</li>
-                            </ol>
+            <!-- 4. 仕事観 -->
+            <section id="m-sec4">
+                <details class="group bg-white rounded-2xl shadow-card overflow-hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer bg-white sticky top-0 z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">4</div>
+                            <h2 class="text-lg font-bold text-gray-800">仕事観</h2>
                         </div>
-                        <div>
-                            <h3 class="font-bold border-b border-orange-200 mb-2">目的と目標</h3>
-                            <p class="text-sm">仕事は目的(価値の交換)を実現する為に、問題を発見し解決する事である。解決すべき課題が目標となる。</p>
-                            <div class="mt-2 bg-orange-50 p-2 rounded text-sm">
-                                <p><strong>ビジョン</strong>：目的目標を達成する事で得られる状態（イメージ）を描く。</p>
-                                <p><strong>理念</strong>：思う 》 想う 》 念う。理想を描く。</p>
-                            </div>
+                        <span class="transform group-open:rotate-180 transition-transform duration-300 text-gray-400">▼</span>
+                    </summary>
+                    <div class="p-5 pt-0 border-t border-gray-50">
+                        <h3 class="text-sm font-bold text-center mt-4 mb-3">何を目指して仕事をする？</h3>
+                        <div class="flex gap-2 overflow-x-auto pb-4 snap-x hide-scrollbar">
+                            <div class="snap-center shrink-0 w-40 bg-gray-50 p-4 rounded-xl border border-gray-100 text-center"><p class="font-bold text-gray-800 mb-1">私事</p><p class="text-[10px] text-gray-500">生活の為<br>↓<br>10年後も同じ作業</p></div>
+                            <div class="snap-center shrink-0 w-40 bg-blue-50 p-4 rounded-xl border border-blue-100 text-center"><p class="font-bold text-blue-800 mb-1">仕事</p><p class="text-[10px] text-gray-500">優秀な仕事士へ<br>↓<br>10年後は指導者</p></div>
+                            <div class="snap-center shrink-0 w-40 bg-orange-50 p-4 rounded-xl border border-orange-100 text-center shadow-sm"><p class="font-bold text-orange-800 mb-1">志事</p><p class="text-[10px] text-gray-500">信念のある仕事<br>↓<br>10年後は統領</p></div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                    <span class="section-badge bg-orange-800 mr-2">4-2</span>
-                    <span class="section-badge bg-orange-800">4-3</span>
-                    
-                    <div class="mt-4 mb-6">
-                        <h3 class="font-bold text-lg mb-2 text-center">何を目指して仕事をするのか？（3人の作業者）</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div class="border p-4 rounded bg-gray-50">
-                                <p class="font-bold text-center mb-2">私事</p>
-                                <p class="mb-2">自分の生活の為</p>
-                                <p class="text-gray-500 text-xs">→ 10年後同じ作業している</p>
-                            </div>
-                            <div class="border p-4 rounded bg-blue-50">
-                                <p class="font-bold text-center mb-2 text-blue-800">仕事</p>
-                                <p class="mb-2">修行して優秀な仕事士になる為</p>
-                                <p class="text-gray-500 text-xs">→ 10年後指導者になっていた</p>
-                            </div>
-                            <div class="border p-4 rounded bg-orange-50">
-                                <p class="font-bold text-center mb-2 text-orange-800">志事</p>
-                                <p class="mb-2">信者の方がお参りされる教会を建てている</p>
-                                <p class="text-gray-500 text-xs">→ 10年後統領になって家を建てていた</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <h4 class="font-bold text-gray-700 mb-2">問題発見・解決</h4>
-                            <p class="text-sm">目標と現実の差。大局観（全体思考）を持つ。</p>
-                            <ul class="text-sm mt-2 mb-4 space-y-1">
-                                <li>戦略・予想（視座・高さ）</li>
-                                <li>戦術・予定（視野・広さ）</li>
-                                <li>戦闘・実行（視点・深さ）</li>
+                        <div class="mt-2 bg-slate-800 text-white p-4 rounded-xl">
+                            <h3 class="text-xs font-bold text-slate-400 mb-2">農家の例え（問題解決）</h3>
+                            <ul class="space-y-3 text-xs">
+                                <li class="flex justify-between border-b border-slate-700 pb-2"><span>大農</span><span class="font-bold text-green-400">草を見ずして草をとる</span></li>
+                                <li class="flex justify-between border-b border-slate-700 pb-2"><span>中農</span><span class="font-bold text-yellow-400">草を見て草をとる</span></li>
+                                <li class="flex justify-between"><span>小農</span><span class="font-bold text-red-400">草を見ても草を取らず</span></li>
                             </ul>
-                            <div class="bg-gray-100 p-2 rounded text-xs">
-                                <p><strong>計画</strong>：P・D・C・Aを回す。計画無き者に実行なし。</p>
-                                <p><strong>成長</strong>：守（真似る）離（自主）破（独自）</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-700 mb-2">組織（チーム）を動かす</h4>
-                            <p class="text-sm">全体と部分の繋がり. 繋がりは相互の信頼（心）・信用（お金）・理解（受容）。</p>
-                            <p class="text-sm mt-2 font-bold">組織の3大機能</p>
-                            <ul class="text-sm list-disc pl-5">
-                                <li>目的と目標達成機能</li>
-                                <li>維持機能（相互理解・チームワーク）</li>
-                                <li>問題解決・解決機能</li>
-                            </ul>
-                            <p class="text-sm mt-2 font-bold">チームのタイプ</p>
-                            <p class="text-xs">駅伝（統合） / 野球（役割分担） / 柔道（個数）</p>
                         </div>
                     </div>
-                </div>
+                </details>
             </section>
 
-            <!-- Section 5: Leader & Follower -->
-            <section>
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center fade-in-section">
-                    <span class="w-2 h-8 bg-red-600 mr-3 rounded"></span>リーダーとフォロワー
-                </h2>
-
-                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6 fade-in-section">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="section-badge bg-red-900 mr-2">5-1</span>
-                            <span class="section-badge bg-red-900">5-2</span>
+            <!-- 5. リーダーとフォロワー -->
+            <section id="m-sec5">
+                <details class="group bg-white rounded-2xl shadow-card overflow-hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer bg-white sticky top-0 z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-sm">5</div>
+                            <h2 class="text-lg font-bold text-gray-800">リーダー</h2>
                         </div>
-                        <h3 class="font-bold text-lg text-red-900">リーダー</h3>
-                    </div>
-                    
-                    <div class="bg-red-50 p-4 rounded mt-4 mb-4 text-center">
-                        <p class="font-bold mb-2">リーダーはリーダーとして生まれるのではなくリーダーになるのだ！！</p>
-                        <p class="font-bold text-red-800">ボスではなくリーダーになるのだ！</p>
-                        <div class="mt-4 pt-4 border-t border-red-200 text-sm">
-                            <p class="font-bold mb-1">貴方がリーダーになる道を選んだ目的は？</p>
-                            <p>何のために？ 誰のために？ 自分の想い？ お役立ち？</p>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h4 class="font-bold text-gray-800 border-b border-red-200 mb-2">リーダーとしてのあるべき姿</h4>
-                            <ul class="text-sm list-disc pl-5 space-y-1 mb-4">
-                                <li>ビジョンを示し、方向性を定める</li>
-                                <li>相互信頼を築きメンバーの能力を活かす</li>
-                                <li>自分代わりを育てる</li>
-                                <li>柔軟性を持ち環境の変化に対応する</li>
-                                <li>意思決定に責任を持つ</li>
-                            </ul>
-                            <div class="bg-gray-50 p-3 rounded text-sm">
-                                <p class="font-bold">リーダーとしての貴方のありたい姿は？</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-800 border-b border-red-200 mb-2">リーダーとしての3つの心構え</h4>
-                            <ol class="text-sm list-decimal pl-5 space-y-3">
-                                <li>
-                                    <strong>率先垂範</strong><br>
-                                    <span class="text-xs text-gray-600 block mb-1">問題発見：視座を高め・視野を広げ・視点を深める</span>
-                                    <span class="text-xs text-gray-600">問題解決：選択と集中。戦略・予想仮定、戦術・当面する問題解決・直面する問題を思考し課題を絞り解決に集中する</span>
-                                </li>
-                                <li>
-                                    <strong>主体性を持つ（自問自答と考動責任）</strong><br>
-                                    <span class="text-xs text-gray-600 block mb-1">自問自答：自らの主観で考え仮説を立て客観性をもって答えとする</span>
-                                    <span class="text-xs text-gray-600">考動：一歩先を考えて今に集中し成果を目指して準備と工夫でやり続ける</span>
-                                </li>
-                                <li>
-                                    <strong>相互信頼の構築（傾聴と共感）</strong><br>
-                                    <span class="text-xs text-gray-600">リーダーはメンバーの意見や感情に耳を傾け、対話を通して信頼関係を築く。そうする事で組織に対する信頼も生まれる。<br>※これらの心構えは特別な才能ではなく日々の意識と行動によって磨かれる</span>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <!-- New Content for 5-2 Roles -->
-                    <div class="mt-6 pt-4 border-t border-gray-200">
-                         <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="font-bold text-gray-800 mb-2">立場と権限</h4>
-                                <ul class="text-sm space-y-1 bg-red-50 p-3 rounded">
-                                    <li><strong>公・私の使い分け</strong></li>
-                                    <li>権限と責任</li>
-                                    <li>権威権力でなく人間性（力）による相互理解</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800 mb-2">リーダーの役割</h4>
-                                <ol class="text-sm list-decimal pl-5 space-y-1">
-                                    <li><strong>方針の浸透計画の実行</strong>：ビジョンに沿った方針計画の実行</li>
-                                    <li><strong>仲間の育成</strong>：自分の応援者並びに代わりになる人を育てる</li>
-                                    <li><strong>率先垂範・問題発見</strong>：目標なる基準が必要。解決、心構えの構築。現場主義。</li>
+                        <span class="transform group-open:rotate-180 transition-transform duration-300 text-gray-400">▼</span>
+                    </summary>
+                    <div class="p-5 pt-0 border-t border-gray-50">
+                        <div class="mt-4 mb-6">
+                            <p class="text-sm font-bold text-center text-red-600 mb-2">リーダーは生まれるのではなく<br>リーダーになるのだ！</p>
+                            <div class="bg-red-50 p-4 rounded-xl">
+                                <p class="font-bold text-xs text-red-900 mb-2">3つの心構え</p>
+                                <ol class="list-decimal pl-4 text-xs space-y-2 text-gray-700">
+                                    <li><strong>率先垂範</strong>：視座高く、視野広く、視点深く。</li>
+                                    <li><strong>主体性</strong>：自問自答し、責任を持って考動する。</li>
+                                    <li><strong>相互信頼</strong>：傾聴と共感で信頼を築く。</li>
                                 </ol>
                             </div>
-                         </div>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                    <span class="section-badge bg-red-900">5-3</span>
-                    <h3 class="text-lg font-bold mb-3 text-red-900">フォロワー</h3>
-                    <p class="text-sm mb-4">
-                        フォロワーは単に【リーダーについていく人】ではありません。組織の成功の80％は、フォロワーシップの質に左右されるといわれるほど重要な存在である。<br>
-                        フォロワーはフォロワーシップだけではなくリーダーシップも必要とする。
-                    </p>
-                    
-                    <div class="mb-4 bg-gray-50 p-4 rounded text-center">
-                        <p class="font-bold text-sm mb-2">リーダーとフォロワーは表裏一体の関係</p>
-                        <div class="flex justify-center gap-4 text-xs font-bold text-gray-700">
-                            <span class="bg-white px-2 py-1 rounded border">リーダー：統括者</span>
-                            <span class="bg-white px-2 py-1 rounded border">フォロワー：協働者</span>
-                            <span class="bg-white px-2 py-1 rounded border">サポーター：応援者</span>
                         </div>
-                        <p class="text-xs mt-2 text-left">相互に影響する：リーダーがフォロワーを動かすだけでなく、フォロワーの振る舞いがリーダーの意思決定やスタイルを作ります。</p>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                             <h4 class="font-bold text-sm mb-2">主要な役割と心構え</h4>
-                            <ul class="text-sm list-disc pl-5 space-y-1">
-                                <li><strong>目的意識を持つ</strong>：目標達成に貢献するという強い意志</li>
-                                <li><strong>主体性をもって自律的に考動する</strong></li>
-                                <li><strong>リーダーに積極的に貢献する</strong>：指示待ちでなく率先行動</li>
-                                <li><strong>建設的な批判をする</strong>：ただ賛成するのではなく、意見や懸念を素直に伝える</li>
-                                <li><strong>責任感を持つ</strong>：期待以上の成果を出そうと努力する</li>
-                                <li><strong>自己管理能力を高める</strong></li>
-                            </ul>
-                        </div>
-                        <div>
-                             <h4 class="font-bold text-sm mb-2">関係性の進化</h4>
-                             <div class="space-y-2 text-sm">
-                                <div class="flex items-center">
-                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs mr-2">1</span>
-                                    <span>知り合いの段階</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs mr-2">2</span>
-                                    <span>知り合いから知己の段階</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs mr-2">3</span>
-                                    <span class="font-bold">パートナーシップの段階</span>
-                                </div>
-                             </div>
+                        <h3 class="font-bold text-sm mb-3">フォロワーの重要性</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center p-3 border border-gray-100 rounded-lg"><span class="text-lg mr-3">🎯</span><div><p class="text-xs font-bold">目的意識</p><p class="text-[10px] text-gray-500">貢献するという強い意志</p></div></div>
+                            <div class="flex items-center p-3 border border-gray-100 rounded-lg"><span class="text-lg mr-3">🗣️</span><div><p class="text-xs font-bold">建設的な批判</p><p class="text-[10px] text-gray-500">素直に提言する</p></div></div>
+                            <div class="flex items-center p-3 border border-gray-100 rounded-lg"><span class="text-lg mr-3">🤝</span><div><p class="text-xs font-bold">関係性の進化</p><p class="text-[10px] text-gray-500">知り合い → 知己 → パートナー</p></div></div>
                         </div>
                     </div>
-                </div>
+                </details>
             </section>
 
-            <!-- Section 6: Passion & Motivation -->
-            <section>
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center fade-in-section">
-                    <span class="w-2 h-8 bg-pink-500 mr-3 rounded"></span>熱意とモチベーション
-                </h2>
-
-                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm fade-in-section">
-                    <span class="section-badge bg-pink-800 mr-2">6-2</span>
-                    <span class="section-badge bg-pink-800">6-3</span>
-                    <h3 class="text-lg font-bold mb-4">リーダーはモチベーターたれ！</h3>
-
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                             <h4 class="font-bold border-b border-pink-200 mb-2">モチベーションとは</h4>
-                             <p class="text-sm mb-2">人が目的に向かって行動を起こし、その行動を維持するための内的な力や状態。単なるやる気とは違う。</p>
-                             <div class="bg-pink-50 p-2 rounded text-xs space-y-1">
-                                <p><span class="font-bold">方向性</span>：何をしたいか、どんな目標を達成したいか</p>
-                                <p><span class="font-bold">強度</span>：どれだけの努力を注ぐか（エネルギー）</p>
-                                <p><span class="font-bold">持続性</span>：困難でも長く行動を続けられるか（粘り強さ）</p>
-                             </div>
+            <!-- 6. 熱意 -->
+            <section id="m-sec6">
+                <details class="group bg-white rounded-2xl shadow-card overflow-hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer bg-white sticky top-0 z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-bold text-sm">6</div>
+                            <h2 class="text-lg font-bold text-gray-800">熱意</h2>
                         </div>
-                        <div>
-                            <h4 class="font-bold border-b border-pink-200 mb-2">モチベーションの種類</h4>
-                            <div class="space-y-2">
-                                <div class="bg-gray-100 p-2 rounded">
-                                    <p class="font-bold text-sm text-gray-700">外発的モチベーション</p>
-                                    <p class="text-xs">報酬（給料、評価、称賛）や罰（𠮟責、降格）など外部からの刺激。</p>
-                                </div>
-                                <div class="bg-pink-100 p-2 rounded">
-                                    <p class="font-bold text-sm text-pink-800">内発的モチベーション</p>
-                                    <p class="text-xs">「楽しい」「興味がある」「やりがい」。行動の持続性と質の向上に繋がりやすい。</p>
-                                </div>
-                            </div>
+                        <span class="transform group-open:rotate-180 transition-transform duration-300 text-gray-400">▼</span>
+                    </summary>
+                    <div class="p-5 pt-0 border-t border-gray-50">
+                        <div class="mt-4 grid grid-cols-2 gap-3 text-center">
+                            <div class="p-3 bg-gray-50 rounded-xl"><p class="text-xs text-gray-500 mb-1">外発的</p><p class="font-bold text-sm text-gray-800">報酬・罰</p></div>
+                            <div class="p-3 bg-pink-50 rounded-xl"><p class="text-xs text-pink-500 mb-1">内発的</p><p class="font-bold text-sm text-pink-800">楽しさ・興味</p></div>
+                        </div>
+                        <div class="mt-4 p-4 rounded-xl bg-gradient-to-br from-pink-500 to-red-500 text-white shadow-lg">
+                            <h3 class="font-bold text-sm mb-2">熱意（本気）の方程式</h3>
+                            <div class="flex justify-between items-center text-xs font-bold opacity-90"><span>思う</span><span>→</span><span>想う</span><span>→</span><span>念う</span></div>
+                            <p class="text-xs mt-3 leading-relaxed border-t border-white/30 pt-2">本気とは、結果を考えずに行動に集中すること（覚悟・不安の排除）。</p>
+                        </div>
+                        <div class="mt-4 bg-gray-50 p-4 rounded-xl">
+                            <h3 class="font-bold text-gray-700 text-sm mb-2">習慣化の魔法</h3>
+                            <div class="flex gap-2 text-[10px] text-gray-500"><span class="bg-white px-2 py-1 rounded border">小さく始める</span><span class="bg-white px-2 py-1 rounded border">記録する</span><span class="bg-white px-2 py-1 rounded border">自己承認</span></div>
                         </div>
                     </div>
-
-                    <div class="mb-6">
-                        <h4 class="font-bold border-b border-pink-200 mb-2">熱意（高いエネルギー・波動）</h4>
-                        <p class="text-sm mb-2">モチベーションは目的に対する意識指向に対し、熱意は想いに対する感情。<br>思う → 想う → 念う・・・<span class="font-bold text-pink-700">本気</span></p>
-                        <div class="bg-gray-50 p-3 rounded text-sm">
-                            <p><strong>本気</strong>：結果を考えずに行動に集中する・・覚悟（不安の排除）</p>
-                            <p class="mt-2"><strong>準備</strong>：心の準備（心構え）、アファメーション、行動の準備</p>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-gray-200 pt-4">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="font-bold mb-2">習慣化する</h4>
-                                <p class="text-sm mb-2">習慣化された行動はモチベーションに頼ることなく自動的に実行されます。習慣がモチベーションを維持するのを手助けします。</p>
-                                <p class="text-xs text-gray-600">モチベーションがなくても続けることで、その行動の成果を実感でき、それが新たなモチベーションに繋がるという良い循環が生まれます。</p>
-                            </div>
-                            <div>
-                                <div class="bg-gray-50 p-3 rounded text-sm">
-                                    <p class="font-bold mb-1">モチベーションに左右されずに習慣を身に付けるには</p>
-                                    <ol class="list-decimal pl-5">
-                                        <li>実行しやすい小さな行動から始める</li>
-                                        <li>きっかけを作る</li>
-                                        <li>行動を結び付ける</li>
-                                        <li>記録をつける</li>
-                                        <li>自己を承認する</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                </details>
             </section>
-
         </main>
-        
-        <footer class="mt-12 text-center text-gray-400 text-sm">
-            <p>マネゼミ思考 講義資料</p>
-        </footer>
+        <footer class="text-center text-xs text-gray-400 py-8"><p>© マネゼミ思考 講義資料</p></footer>
     </div>
 
+    <!-- ========================================== -->
+    <!-- PC/印刷ビュー (PC/Print View) -->
+    <!-- ========================================== -->
+    <div id="pc-view" class="view-hidden p-4 md:p-8">
+        <div class="max-w-4xl mx-auto pc-paper p-8 md:p-12 rounded-lg bg-white shadow-paper">
+            <!-- Header Section -->
+            <header class="mb-12 border-b-2 border-gray-200 pb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                    <h1 class="text-3xl md:text-4xl font-bold text-slate-800 font-heading">マネゼミ思考</h1>
+                    <p class="text-gray-500 font-medium mt-2 md:mt-0">令和7年11月28日</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-lg mb-6">
+                    <p class="font-bold text-lg mb-2">自問自答 ― 仮説検証</p>
+                    <div class="pc-formula-box p-4 rounded mb-4">
+                        <p class="text-xl md:text-2xl font-bold text-center text-slate-800">
+                            成果 ＝ 考え方 × 熱意 × 能力<span class="text-sm font-normal text-gray-600">（習慣化された行動）</span>
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <ul class="list-disc pl-5 space-y-1"><li><strong>考え方（思考）</strong>：習慣化された考え</li><li><strong>豊かな生活環境づくり</strong></li></ul>
+                        <ul class="list-disc pl-5 space-y-1"><li><strong>豊かな心と豊かな経済の調和</strong></li></ul>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-bold text-slate-700 border-b border-slate-300 mb-2 font-heading">バランス思考</h3>
+                        <p class="text-sm">宇宙の真理（表裏一体・左右バランス）。成長にはリスクが伴うが、潜在意識は安全を求める。能力と思考の体系化が鍵。</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded border border-blue-100 flex items-center">
+                        <p class="font-bold text-blue-900 text-sm">周りを動かせる良いリーダーなるためには、自分を知り依存体質から脱却して、自己を確立することが大切である。</p>
+                    </div>
+                </div>
+            </header>
+
+            <main class="space-y-12">
+                <div class="text-center mb-8"><span class="inline-block px-8 py-2 border-2 border-slate-800 text-slate-800 text-xl font-bold tracking-widest uppercase">マネゼミ講座</span></div>
+
+                <!-- 1. 人間観 -->
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center font-heading"><span class="w-2 h-8 bg-blue-600 mr-3 rounded"></span>人間観</h2>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <div class="flex items-center mb-3"><span class="pc-section-badge mr-2">1-1</span><h3 class="text-lg font-bold font-heading">人間は？</h3></div>
+                        <p class="mb-4 text-gray-700 text-sm">人と人間は違う。人は人類の一種、人間は多くの仲間が集まり交流し進化してきた（社会性）。そこには必然としてリーダーが生まれる。</p>
+                        <div class="bg-slate-50 p-4 rounded mb-4">
+                            <h4 class="font-bold text-slate-700 mb-2">人間関係と自己確立</h4>
+                            <p class="text-sm mb-2">「俺が」の（我）を捨てて、「お陰」のげで生きよ！</p>
+                            <div class="pl-4 border-l-4 border-blue-200 my-3"><p class="text-sm italic">「己を治め、人と交わる」（渋沢栄一）</p></div>
+                            <p class="text-sm font-bold mt-2">利他の心・共同感覚</p>
+                            <ul class="list-disc pl-5 text-sm mt-1"><li>与えると喜びを得られる</li><li>信用＝約束、信頼＝繋がり</li></ul>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm bg-blue-50 p-3 rounded text-center">
+                            <div class="bg-white p-2 rounded"><span class="block font-bold text-blue-800">1人称</span>自分は（自主）</div>
+                            <div class="bg-white p-2 rounded"><span class="block font-bold text-blue-800">2人称</span>貴方は（共感）</div>
+                            <div class="bg-white p-2 rounded"><span class="block font-bold text-blue-800">3人称</span>皆は（連帯）</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <div class="flex items-center mb-3"><span class="pc-section-badge mr-2">1-3</span><h3 class="text-lg font-bold font-heading">顕在意識と潜在意識</h3></div>
+                        <div class="flex items-center mb-4 bg-gray-50 p-4 rounded"><div class="w-1/3 text-center border-r border-gray-300 pr-4"><span class="block text-2xl font-bold">5%</span><span class="text-xs">顕在意識</span></div><div class="w-2/3 pl-4"><span class="block text-2xl font-bold">95%</span><span class="text-xs">潜在意識（無意識）</span></div></div>
+                        <div class="grid md:grid-cols-2 gap-6 mt-4">
+                            <div><h4 class="font-bold text-slate-700 mb-2">潜在意識に落とし込む</h4><ul class="list-disc pl-5 space-y-1 text-sm"><li>言葉の力（アファーメーション）</li><li>視覚化（ビジョン）</li><li>習慣化</li></ul></div>
+                            <div class="bg-blue-50 p-4 rounded"><h4 class="font-bold text-blue-900 mb-2">自己確立</h4><p class="text-sm"><strong>自己理解</strong>：自己と自我を意識。自己受容。<br><strong>自己鍛錬</strong>：心・技・体を鍛える習慣化。</p></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. 人生観 -->
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center font-heading"><span class="w-2 h-8 bg-green-600 mr-3 rounded"></span>人生観</h2>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <div class="flex items-center mb-2"><span class="pc-section-badge bg-green-900 mr-2">2-1</span><h3 class="text-lg font-bold font-heading">宇宙の真理・種の保存</h3></div>
+                        <div class="pc-quote-box"><p class="font-bold text-lg mb-2">人生色々！ 夢を持って生き抜こう！</p><p class="italic text-gray-800 text-sm">夢無き者に理想なし… 故に夢無き者に成功なし</p><p class="text-right font-bold mt-2">― 吉田松陰</p></div>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mt-4">
+                            <h4 class="font-bold text-center text-lg mb-4 text-slate-700">マズローの5段階欲求</h4>
+                            <div class="flex flex-col items-center w-full max-w-sm mx-auto">
+                                <div class="w-4/12 bg-indigo-600 text-white py-1 text-center rounded-t-lg text-xs">自己実現</div>
+                                <div class="w-6/12 bg-blue-500 text-white py-1 text-center text-xs">承認</div>
+                                <div class="w-8/12 bg-green-500 text-white py-1 text-center text-xs">帰属（安定）</div>
+                                <div class="w-10/12 bg-yellow-500 text-white py-1 text-center text-xs">安全性</div>
+                                <div class="w-full bg-red-500 text-white py-1 text-center rounded-b-lg text-xs">生存（生理的）</div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 mt-6">
+                            <div><h3 class="font-bold border-b border-gray-300 mb-3">存在意義と志</h3><p class="text-sm">人間は本能として自分の存在意義を求める。<br><strong>人生理念・志</strong>：公の精神。成功する人は夢と情熱をもって志を貫く。</p><div class="bg-slate-800 text-white p-3 rounded mt-2 text-xs"><p>考え方→言葉→行動→習慣→人格→運</p></div></div>
+                            <div><h3 class="font-bold border-b border-gray-300 mb-3">人間（世間）塞翁が馬</h3><p class="text-sm">人生楽ありゃ苦もあるさ。過去は人生脚本、現在は未来への準備、未来は夢への挑戦。</p><div class="mt-2 bg-green-50 p-3 rounded"><h4 class="font-bold text-green-900 text-sm">未来への挑戦</h4><p class="text-xs">夢の実現像（ビジョン）。拡がる縁と運。</p></div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. 心構え -->
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center font-heading"><span class="w-2 h-8 bg-purple-600 mr-3 rounded"></span>心構えと意思決定</h2>
+                    <div class="grid gap-6">
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                            <span class="pc-section-badge bg-purple-900">3-1</span>
+                            <h3 class="text-lg font-bold mb-3 font-heading">意思決定と脳の働き</h3>
+                            <div class="grid grid-cols-3 gap-2 text-center text-sm mb-4">
+                                <div class="bg-purple-50 p-2 rounded"><span class="block font-bold">大脳</span>人間<br>成長発展</div>
+                                <div class="bg-purple-50 p-2 rounded"><span class="block font-bold">中脳</span>哺乳類<br>集まって衛る</div>
+                                <div class="bg-purple-50 p-2 rounded"><span class="block font-bold">小脳</span>爬虫類<br>危険から逃げる</div>
+                            </div>
+                            <h4 class="font-bold text-slate-700 mt-4 mb-2">心構え（高く、広く、深く）</h4>
+                            <ul class="list-disc pl-5 text-sm space-y-1"><li>価値観（判断基準）</li><li>ありたい姿（私・願望）</li><li>あるべき姿（公・常識）</li></ul>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div><h3 class="font-bold mb-2">観念に注意</h3><p class="text-sm">固定観念「○○でなければならない」を捨てる。素直な心。<br><strong>バランス思考</strong>：上下左右・表裏一体。</p><h4 class="font-bold mt-4 mb-1">潜在意識</h4><ul class="text-sm list-none space-y-1"><li><span class="text-red-600 font-bold">ネガティブ</span>：恐怖・不安・逃避</li><li><span class="text-blue-600 font-bold">ポジティブ</span>：感動・希望・成功願望</li></ul></div>
+                                <div class="border-l pl-4"><h3 class="font-bold mb-2">選択と決断</h3><ul class="list-disc pl-5 text-sm space-y-2"><li><strong>優先順位</strong>：選択と集中。</li><li><strong>決断</strong>：不安を断ち切る覚悟。</li><li><strong>実行</strong>：実行無き者に成功なし。</li><li><strong>評価</strong>：プライドを持ち、他人と比較しない。</li></ul></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. 仕事観 -->
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center font-heading"><span class="w-2 h-8 bg-orange-500 mr-3 rounded"></span>仕事観</h2>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6">
+                        <div class="flex justify-between items-center mb-4"><span class="pc-section-badge bg-orange-800">4-1</span><span class="text-sm font-bold text-orange-800">価値を生み出し交換する</span></div>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div><h3 class="font-bold border-b border-orange-200 mb-2">価値とは</h3><p class="text-sm mb-2">相手のニーズ（欲求）に対する満足の提供。</p><ol class="list-decimal pl-5 text-sm font-medium text-gray-700"><li>不足</li><li>安全・安心</li><li>便利</li><li>経済的</li><li>貴重</li></ol></div>
+                            <div><h3 class="font-bold border-b border-orange-200 mb-2">目的と目標</h3><p class="text-sm">仕事は目的(価値交換)の為に問題発見・解決すること。<br><strong>ビジョン</strong>：達成状態のイメージ。<br><strong>理念</strong>：理想を描く。</p></div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <h3 class="font-bold text-lg mb-4 text-center">何を目指して仕事をするのか？</h3>
+                        <div class="grid grid-cols-3 gap-4 text-sm mb-6">
+                            <div class="border p-4 rounded bg-gray-50 text-center"><p class="font-bold">私事</p><p class="text-xs mt-2">生活の為</p></div>
+                            <div class="border p-4 rounded bg-blue-50 text-center"><p class="font-bold text-blue-800">仕事</p><p class="text-xs mt-2">優秀な仕事士へ</p></div>
+                            <div class="border p-4 rounded bg-orange-50 text-center"><p class="font-bold text-orange-800">志事</p><p class="text-xs mt-2">信念のある仕事</p></div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div><h4 class="font-bold text-gray-700 mb-2">問題発見・解決</h4><div class="bg-gray-100 p-3 rounded text-xs"><p><strong>大農</strong>：草を見ずして草をとる（予測）</p><p><strong>中農</strong>：草を見て草をとる（対処）</p><p><strong>小農</strong>：草を見ても草を取らず（放置）</p></div></div>
+                            <div><h4 class="font-bold text-gray-700 mb-2">組織を動かす</h4><p class="text-sm mt-2 font-bold">組織の3大機能</p><ul class="text-sm list-disc pl-5"><li>目的達成機能</li><li>維持機能</li><li>問題解決機能</li></ul></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. リーダー -->
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center font-heading"><span class="w-2 h-8 bg-red-600 mr-3 rounded"></span>リーダーとフォロワー</h2>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6">
+                        <div class="bg-red-50 p-4 rounded mt-2 mb-6 text-center"><p class="font-bold">リーダーは生まれるのではなくリーダーになるのだ！</p></div>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div><h4 class="font-bold text-gray-800 border-b border-red-200 mb-2">リーダーとしてのあるべき姿</h4><ul class="text-sm list-disc pl-5 space-y-1"><li>ビジョンを示し方向性を定める</li><li>相互信頼を築く</li><li>自分代わりを育てる</li><li>環境変化への柔軟性</li><li>責任を持つ</li></ul></div>
+                            <div><h4 class="font-bold text-gray-800 border-b border-red-200 mb-2">3つの心構え</h4><ol class="text-sm list-decimal pl-5 space-y-2"><li><strong>率先垂範</strong>（問題発見・解決）</li><li><strong>主体性</strong>（自問自答と考動責任）</li><li><strong>相互信頼</strong>（傾聴と共感）</li></ol></div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <h3 class="text-lg font-bold mb-3 text-red-900 font-heading">フォロワー</h3>
+                        <p class="text-sm mb-4">組織の成功の80％はフォロワーシップで決まる。</p>
+                        <div class="bg-gray-50 p-4 rounded grid md:grid-cols-2 gap-4">
+                            <div><h4 class="font-bold text-sm mb-2">主要な役割</h4><ul class="text-sm list-disc pl-5"><li>主体的に考動する</li><li>リーダーの方針を実践遂行</li><li>リーダーへの提言と補完</li></ul></div>
+                            <div><h4 class="font-bold text-sm mb-2">心構え</h4><ul class="text-sm list-disc pl-5"><li>目的意識を持つ</li><li>建設的な批判（イエスマンにならない）</li><li>関係性の進化（知り合い→知己→パートナー）</li></ul></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. 熱意 -->
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center font-heading"><span class="w-2 h-8 bg-pink-500 mr-3 rounded"></span>熱意とモチベーション</h2>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <h3 class="text-lg font-bold mb-4 font-heading">リーダーはモチベーターたれ！</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div><h4 class="font-bold border-b border-pink-200 mb-2">モチベーションの種類</h4><div class="space-y-3"><div class="bg-gray-100 p-3 rounded"><p class="font-bold text-sm text-gray-700">外発的</p><p class="text-xs">報酬や罰など外部刺激</p></div><div class="bg-pink-50 p-3 rounded"><p class="font-bold text-sm text-pink-800">内発的</p><p class="text-xs">楽しさ、興味、やりがい</p></div></div></div>
+                            <div>
+                                <h4 class="font-bold border-b border-pink-200 mb-2">熱意（本気）</h4>
+                                <div class="bg-pink-100 p-3 rounded mb-3 text-sm"><p>思う → 想う → 念う ・・・ 本気</p><p class="text-xs mt-1">本気とは、結果を考えずに行動に集中すること。</p></div>
+                                <h4 class="font-bold border-b border-pink-200 mb-2 mt-4">習慣化</h4>
+                                <p class="text-sm">習慣化された行動はモチベーションに頼らず実行できる。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer class="mt-12 text-center text-gray-400 text-sm"><p>マネゼミ思考 講義資料</p></footer>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 切り替えボタン (Floating Action Button) -->
+    <!-- ========================================== -->
+    <button id="mode-switch-btn" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-full shadow-2xl z-50 flex items-center gap-2 transform transition-all hover:scale-105 active:scale-95 mode-switch-btn">
+        <span id="btn-icon" class="text-xl">💻</span>
+        <span id="btn-text" class="text-sm font-bold">PC版へ</span>
+    </button>
+
     <script>
-        // Intersection Observerの設定
-        document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = {
-                root: null, // ビューポートを基準にする
-                rootMargin: '0px',
-                threshold: 0.1 // 要素の10%が見えたら発火
-            };
+        const mobileView = document.getElementById('mobile-view');
+        const pcView = document.getElementById('pc-view');
+        const switchBtn = document.getElementById('mode-switch-btn');
+        const btnIcon = document.getElementById('btn-icon');
+        const btnText = document.getElementById('btn-text');
+        const body = document.body;
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // 一度表示されたら監視をやめる
-                    }
-                });
-            }, observerOptions);
+        // モード設定（localStorageを使用）
+        let isMobileMode = true;
 
-            const fadeElements = document.querySelectorAll('.fade-in-section');
-            fadeElements.forEach(el => observer.observe(el));
+        function updateView() {
+            if (isMobileMode) {
+                // モバイルモードON
+                mobileView.classList.remove('view-hidden');
+                pcView.classList.add('view-hidden');
+                btnIcon.textContent = "💻";
+                btnText.textContent = "PC版へ";
+                body.classList.replace('bg-gray-100', 'bg-gray-50'); // 背景色変更
+                window.scrollTo(0, 0);
+            } else {
+                // PCモードON
+                mobileView.classList.add('view-hidden');
+                pcView.classList.remove('view-hidden');
+                btnIcon.textContent = "📱";
+                btnText.textContent = "モバイル版へ";
+                body.classList.replace('bg-gray-50', 'bg-gray-100'); // 背景色変更
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // 初期化：画面幅で判定（localStorageがあればそちら優先）
+        function init() {
+            const savedMode = localStorage.getItem('manasemi_mode');
+            if (savedMode) {
+                isMobileMode = savedMode === 'mobile';
+            } else {
+                // 画面幅が768px未満ならモバイルモード
+                isMobileMode = window.innerWidth < 768;
+            }
+            updateView();
+        }
+
+        // ボタンクリック時の挙動
+        switchBtn.addEventListener('click', () => {
+            isMobileMode = !isMobileMode;
+            localStorage.setItem('manasemi_mode', isMobileMode ? 'mobile' : 'pc');
+            updateView();
         });
+
+        // モバイル版のプログレスバー制御
+        window.onscroll = function() {
+            if (isMobileMode) {
+                let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                let scrolled = (winScroll / height) * 100;
+                document.getElementById("progress-bar").style.width = scrolled + "%";
+            }
+        };
+
+        // スムーズスクロール関数（モバイル用）
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                // アコーディオンを開く
+                const details = el.querySelector('details');
+                if (details) details.open = true;
+                
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        init();
     </script>
 </body>
 </html>
