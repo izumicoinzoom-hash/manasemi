@@ -28,6 +28,21 @@
         .btn-gold { background-color: #b8860b; color: #f7f6f3; }
         .btn-gold:hover { background-color: #9a7209; color: #fff; }
         .cal-month { border-left: 4px solid #b8860b; }
+        .member-section-bg {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .member-section-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.82);
+            border-radius: 0.5rem;
+            pointer-events: none;
+        }
+        .member-section-bg > * { position: relative; z-index: 10; }
     </style>
 </head>
 <body class="antialiased">
@@ -57,7 +72,7 @@
             </section>
 
             <!-- 1. 運営のための協力金案内（Stripe誘導） -->
-            <section id="kyoryokukin" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+            <section id="kyoryokukin" class="member-section-bg rounded-lg shadow-sm p-6 md:p-8" style="background-image: url('../images/kyoryokukin-bg.png');">
                 <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-4">運営のための協力金</h2>
                 <p class="text-brand-charcoal/90 text-sm md:text-base leading-relaxed mb-6">
                     マネゼミの運営・活動は、会員の皆さまのご協力金により支えられています。ご負担可能な範囲でお支払いいただけると幸いです。決済はStripe（クレジットカード等）で安全に処理されます。
@@ -69,7 +84,7 @@
             </section>
 
             <!-- 2. カレンダー（オープンゼミ・オリエンテーション・第1～7講・志心の会・総会） -->
-            <section id="calendar" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+            <section id="calendar" class="member-section-bg rounded-lg shadow-sm p-6 md:p-8" style="background-image: url('../images/calendar-bg.png');">
                 <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">年間カレンダー</h2>
                 <p class="text-brand-charcoal/80 text-sm mb-6">オープンゼミ、オリエンテーション、第1～7講、志心の会主催の全体例会、総会の案内です。</p>
                 <div class="overflow-x-auto">
@@ -99,7 +114,7 @@
             </section>
 
             <!-- 3. 直近の講座 YouTube 動画サムネイル -->
-            <section id="youtube" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+            <section id="youtube" class="member-section-bg rounded-lg shadow-sm p-6 md:p-8" style="background-image: url('../images/youtube-bg.png');">
                 <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">直近の講座動画</h2>
                 <p class="text-brand-charcoal/80 text-sm mb-6">公開中の講座動画です。サムネイルをクリックでYouTubeで視聴できます。</p>
                 <div class="grid sm:grid-cols-2 gap-6">
@@ -115,7 +130,7 @@
             </section>
 
             <!-- 4. 直近の活動告知ウィンドウ -->
-            <section id="announce" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+            <section id="announce" class="member-section-bg rounded-lg shadow-sm p-6 md:p-8" style="background-image: url('../images/announce-bg.png');">
                 <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">直近の活動告知</h2>
                 <div class="space-y-4">
                     <article class="border-l-4 border-brand-gold pl-4 py-2">
@@ -133,7 +148,7 @@
             </section>
 
             <!-- 5. 総会資料（2026年度 マネゼミ資料 総会資料ページへのリンク） -->
-            <section id="sokai" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+            <section id="sokai" class="member-section-bg rounded-lg shadow-sm p-6 md:p-8" style="background-image: url('../images/sokai-bg.png');">
                 <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-4">総会資料</h2>
                 <p class="text-brand-charcoal/90 text-sm md:text-base leading-relaxed mb-6">
                     総会の次第および議案資料（会則・組織図・活動計画など）は、総会資料ポータルでご確認いただけます。
