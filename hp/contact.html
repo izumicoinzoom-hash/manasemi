@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | マネゼミ</title>
+    <meta name="description" content="マネゼミへのお問い合わせ。講座内容・スケジュール・参加申し込みについてご連絡ください。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#1a1f36', dark: '#12151f', paper: '#f7f6f3', gold: '#b8860b', goldLight: '#d4a84b', charcoal: '#2d3348' }
+                    },
+                    fontFamily: { serif: ['"Noto Serif JP"', 'serif'], sans: ['"Noto Sans JP"', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f7f6f3; color: #1a1f36; }
+        .font-display { font-family: 'Noto Serif JP', serif; }
+        .btn-gold { background-color: #b8860b; color: #f7f6f3; }
+        .btn-gold:hover { background-color: #9a7209; color: #fff; }
+        input:focus, textarea:focus { outline: 2px solid #b8860b; outline-offset: 2px; }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="fixed top-0 w-full z-50 bg-brand-navy/95 backdrop-blur-sm border-b border-brand-charcoal/50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="index.html" class="font-display font-semibold text-xl text-brand-paper tracking-wide hover:opacity-90 transition">マネゼミ</a>
+                <ul class="hidden md:flex items-center gap-8 text-brand-paper/90 text-sm font-medium">
+                    <li><a href="index.html" class="hover:text-brand-goldLight transition">ホーム</a></li>
+                    <li><a href="index.html#course" class="hover:text-brand-goldLight transition">講座内容</a></li>
+                    <li><a href="contact.html" class="text-brand-goldLight font-medium">お問い合わせ</a></li>
+                    <li><a href="login.html" class="hover:text-brand-goldLight transition">会員ログイン</a></li>
+                </ul>
+                <a href="index.html" class="text-brand-paper/80 text-sm md:hidden">ホーム</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-20 md:pt-24">
+        <section class="py-16 md:py-24 bg-brand-navy text-brand-paper">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="font-display text-3xl md:text-4xl font-semibold mb-4">お問い合わせ</h1>
+                <p class="text-brand-paper/80 max-w-2xl">講座・志心の会・その他ご質問をお受けします。</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 bg-brand-paper">
+            <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <form action="#" method="post" class="space-y-6">
+                    <p class="text-brand-charcoal/70 text-sm mb-8">※ 実際の運用時はサーバー側のフォーム処理が必要です。</p>
+                    <div>
+                        <label for="name" class="block font-medium text-brand-navy mb-2">お名前 <span class="text-brand-gold">*</span></label>
+                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-brand-charcoal/20 rounded bg-white focus:border-brand-gold" placeholder="山田 太郎">
+                    </div>
+                    <div>
+                        <label for="email" class="block font-medium text-brand-navy mb-2">メールアドレス <span class="text-brand-gold">*</span></label>
+                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-brand-charcoal/20 rounded bg-white focus:border-brand-gold" placeholder="example@email.com">
+                    </div>
+                    <div>
+                        <label for="subject" class="block font-medium text-brand-navy mb-2">お問い合わせ種別</label>
+                        <select id="subject" name="subject" class="w-full px-4 py-3 border border-brand-charcoal/20 rounded bg-white focus:border-brand-gold">
+                            <option value="">選択してください</option>
+                            <option value="course">講座内容について</option>
+                            <option value="schedule">スケジュール・開講について</option>
+                            <option value="join">参加申し込み</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="message" class="block font-medium text-brand-navy mb-2">お問い合わせ内容 <span class="text-brand-gold">*</span></label>
+                        <textarea id="message" name="message" required rows="6" class="w-full px-4 py-3 border border-brand-charcoal/20 rounded bg-white focus:border-brand-gold resize-y" placeholder="ご質問・ご要望をご記入ください"></textarea>
+                    </div>
+                    <div class="pt-4">
+                        <button type="submit" class="w-full md:w-auto px-8 py-4 btn-gold rounded font-medium text-sm tracking-wide hover:shadow-lg transition">送信する</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-brand-dark text-brand-paper/70 py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="font-display font-semibold text-brand-paper/90">マネゼミ</p>
+                <ul class="flex flex-wrap justify-center gap-6 md:gap-8 text-sm">
+                    <li><a href="index.html" class="hover:text-brand-goldLight transition">ホーム</a></li>
+                    <li><a href="index.html#course" class="hover:text-brand-goldLight transition">講座内容</a></li>
+                    <li><a href="contact.html" class="hover:text-brand-goldLight transition">お問い合わせ</a></li>
+                    <li><a href="login.html" class="hover:text-brand-goldLight transition">会員ログイン</a></li>
+                </ul>
+            </div>
+            <p class="mt-8 text-center text-xs text-brand-paper/50">© マネジメントゼミナール（マネゼミ）</p>
+        </div>
+    </footer>
+</body>
+</html>

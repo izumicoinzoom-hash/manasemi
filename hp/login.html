@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員ログイン | マネゼミ</title>
+    <meta name="description" content="マネゼミ会員ログイン。協力金・カレンダー・講座動画・活動告知・総会資料をご利用いただけます。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#1a1f36', dark: '#12151f', paper: '#f7f6f3', gold: '#b8860b', goldLight: '#d4a84b', charcoal: '#2d3348' }
+                    },
+                    fontFamily: { serif: ['"Noto Serif JP"', 'serif'], sans: ['"Noto Sans JP"', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f7f6f3; color: #1a1f36; }
+        .font-display { font-family: 'Noto Serif JP', serif; }
+        .btn-gold { background-color: #b8860b; color: #f7f6f3; }
+        .btn-gold:hover { background-color: #9a7209; color: #fff; }
+        input:focus { outline: 2px solid #b8860b; outline-offset: 2px; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed top-0 w-full z-50 bg-brand-navy/95 backdrop-blur-sm border-b border-brand-charcoal/50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="index.html" class="font-display font-semibold text-xl text-brand-paper tracking-wide hover:opacity-90 transition">マネゼミ</a>
+                <ul class="hidden md:flex items-center gap-8 text-brand-paper/90 text-sm font-medium">
+                    <li><a href="index.html" class="hover:text-brand-goldLight transition">ホーム</a></li>
+                    <li><a href="index.html#course" class="hover:text-brand-goldLight transition">講座内容</a></li>
+                    <li><a href="contact.html" class="hover:text-brand-goldLight transition">お問い合わせ</a></li>
+                    <li><a href="login.html" class="text-brand-goldLight font-medium">会員ログイン</a></li>
+                </ul>
+                <a href="index.html" class="text-brand-paper/80 text-sm md:hidden">ホーム</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-24 md:pt-28 min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-md">
+            <h1 class="font-display text-2xl md:text-3xl font-semibold text-brand-navy mb-2">会員ログイン</h1>
+            <p class="text-brand-charcoal/80 text-sm mb-8">会員の方はログインして会員向けコンテンツをご利用ください。</p>
+
+            <form action="member/index.html" method="get" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8 space-y-5">
+                <p class="text-xs text-brand-charcoal/70">※ 認証は別途サーバー側で実装してください。現在はログイン後に会員TOPへ進みます。</p>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-brand-navy mb-1">メールアドレス</label>
+                    <input type="email" id="email" name="email" placeholder="example@example.com" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded focus:border-brand-gold">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-brand-navy mb-1">パスワード</label>
+                    <input type="password" id="password" name="password" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded focus:border-brand-gold">
+                </div>
+                <button type="submit" class="w-full py-3 btn-gold rounded font-medium text-sm tracking-wide">
+                    ログイン
+                </button>
+            </form>
+
+            <p class="mt-6 text-center">
+                <a href="index.html" class="text-brand-gold text-sm font-medium hover:underline">← トップへ戻る</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="bg-brand-dark text-brand-paper/70 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-xs text-brand-paper/50">© マネジメントゼミナール（マネゼミ）</p>
+        </div>
+    </footer>
+</body>
+</html>

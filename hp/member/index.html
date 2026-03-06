@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員TOP | マネゼミ</title>
+    <meta name="description" content="マネゼミ会員向け。協力金・カレンダー・講座動画・活動告知・総会資料。">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#1a1f36', dark: '#12151f', paper: '#f7f6f3', gold: '#b8860b', goldLight: '#d4a84b', charcoal: '#2d3348' }
+                    },
+                    fontFamily: { serif: ['"Noto Serif JP"', 'serif'], sans: ['"Noto Sans JP"', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f7f6f3; color: #1a1f36; }
+        .font-display { font-family: 'Noto Serif JP', serif; }
+        .btn-gold { background-color: #b8860b; color: #f7f6f3; }
+        .btn-gold:hover { background-color: #9a7209; color: #fff; }
+        .cal-month { border-left: 4px solid #b8860b; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed top-0 w-full z-50 bg-brand-navy/95 backdrop-blur-sm border-b border-brand-charcoal/50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="../index.html" class="font-display font-semibold text-xl text-brand-paper tracking-wide hover:opacity-90 transition">マネゼミ <span class="text-brand-goldLight/90 text-sm font-sans ml-1">会員</span></a>
+                <ul class="hidden md:flex items-center gap-8 text-brand-paper/90 text-sm font-medium">
+                    <li><a href="../index.html" class="hover:text-brand-goldLight transition">トップ</a></li>
+                    <li><a href="#kyoryokukin" class="hover:text-brand-goldLight transition">協力金</a></li>
+                    <li><a href="#calendar" class="hover:text-brand-goldLight transition">カレンダー</a></li>
+                    <li><a href="#youtube" class="hover:text-brand-goldLight transition">講座動画</a></li>
+                    <li><a href="#announce" class="hover:text-brand-goldLight transition">活動告知</a></li>
+                    <li><a href="#sokai" class="hover:text-brand-goldLight transition">総会資料</a></li>
+                </ul>
+                <a href="../index.html" class="text-brand-paper/80 text-sm md:hidden">トップ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-20 md:pt-24 pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 md:space-y-20">
+            <section class="pt-4">
+                <h1 class="font-display text-2xl md:text-3xl font-semibold text-brand-navy mb-2">会員向けコンテンツ</h1>
+                <p class="text-brand-charcoal/80">協力金・カレンダー・講座動画・活動告知・総会資料をご利用いただけます。</p>
+            </section>
+
+            <!-- 1. 運営のための協力金案内（Stripe誘導） -->
+            <section id="kyoryokukin" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+                <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-4">運営のための協力金</h2>
+                <p class="text-brand-charcoal/90 text-sm md:text-base leading-relaxed mb-6">
+                    マネゼミの運営・活動は、会員の皆さまのご協力金により支えられています。ご負担可能な範囲でお支払いいただけると幸いです。決済はStripe（クレジットカード等）で安全に処理されます。
+                </p>
+                <a href="#" id="stripe-link" class="inline-block px-6 py-3 btn-gold rounded font-medium text-sm tracking-wide hover:shadow-lg transition" target="_blank" rel="noopener">
+                    協力金を支払う（Stripe）
+                </a>
+                <p class="mt-3 text-xs text-brand-charcoal/60">※ リンク先はStripeのPayment Linkに差し替えてください。Payment Linkの success_url に <code>member/success.html</code>、cancel_url に <code>member/cancel.html</code> を指定すると、支払い完了・キャンセル時にそれぞれのページへ遷移します。</p>
+            </section>
+
+            <!-- 2. カレンダー（オープンゼミ・オリエンテーション・第1～7講・志心の会・総会） -->
+            <section id="calendar" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+                <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">年間カレンダー</h2>
+                <p class="text-brand-charcoal/80 text-sm mb-6">オープンゼミ、オリエンテーション、第1～7講、志心の会主催の全体例会、総会の案内です。</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[320px] text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-brand-gold/30">
+                                <th class="py-3 px-4 font-display font-semibold text-brand-navy">月</th>
+                                <th class="py-3 px-4 font-display font-semibold text-brand-navy">主な行事</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-brand-charcoal/90 text-sm md:text-base">
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">3月</td><td class="py-3 px-4">オープンゼミ（開始）</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">4月</td><td class="py-3 px-4">オリエンテーション</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">5月</td><td class="py-3 px-4">第1講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">6月</td><td class="py-3 px-4">第2講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">7月</td><td class="py-3 px-4">第3講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">8月</td><td class="py-3 px-4">第4講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">9月</td><td class="py-3 px-4">第5講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">10月</td><td class="py-3 px-4">第6講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">11月</td><td class="py-3 px-4">第7講</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">—</td><td class="py-3 px-4">志心の会 … 全体例会（卒業生戦に合わせて実施）</td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-3 px-4 font-medium text-brand-navy">—</td><td class="py-3 px-4">総会（年度に応じて実施）</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="mt-4 text-xs text-brand-charcoal/60">※ 詳細な日時は志心の会・役員会のご案内をご確認ください。</p>
+            </section>
+
+            <!-- 3. 直近の講座 YouTube 動画サムネイル -->
+            <section id="youtube" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+                <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">直近の講座動画</h2>
+                <p class="text-brand-charcoal/80 text-sm mb-6">公開中の講座動画です。サムネイルをクリックでYouTubeで視聴できます。</p>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener" class="block group">
+                        <div class="aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" alt="講座動画サムネイル" class="w-full h-full object-cover group-hover:opacity-90 transition">
+                        </div>
+                        <p class="mt-2 font-medium text-brand-navy text-sm md:text-base group-hover:text-brand-gold transition">【サンプル】直近講座タイトル（動画IDを差し替えてください）</p>
+                        <p class="text-xs text-brand-charcoal/60 mt-1">公開日：YYYY/MM/DD</p>
+                    </a>
+                </div>
+                <p class="mt-4 text-xs text-brand-charcoal/60">※ 動画ID・タイトル・公開日は実際の講座に合わせて更新してください。</p>
+            </section>
+
+            <!-- 4. 直近の活動告知ウィンドウ -->
+            <section id="announce" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+                <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">直近の活動告知</h2>
+                <div class="space-y-4">
+                    <article class="border-l-4 border-brand-gold pl-4 py-2">
+                        <p class="text-xs text-brand-charcoal/60">2026/03/XX</p>
+                        <h3 class="font-display font-semibold text-brand-navy mt-1">志心の会 全体例会のご案内</h3>
+                        <p class="text-brand-charcoal/80 text-sm mt-2 leading-relaxed">〇月〇日（〇）に全体例会を予定しています。会場・時間は追ってご連絡します。</p>
+                    </article>
+                    <article class="border-l-4 border-brand-gold pl-4 py-2">
+                        <p class="text-xs text-brand-charcoal/60">2026/02/XX</p>
+                        <h3 class="font-display font-semibold text-brand-navy mt-1">総会資料の公開</h3>
+                        <p class="text-brand-charcoal/80 text-sm mt-2 leading-relaxed">2026年度総会の資料を会員向けに公開しました。下記「総会資料」からご確認ください。</p>
+                    </article>
+                </div>
+                <p class="mt-4 text-xs text-brand-charcoal/60">※ 告知内容は適宜更新してください。</p>
+            </section>
+
+            <!-- 5. 総会資料（2026年度 マネゼミ資料 総会資料ページへのリンク） -->
+            <section id="sokai" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+                <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-4">総会資料</h2>
+                <p class="text-brand-charcoal/90 text-sm md:text-base leading-relaxed mb-6">
+                    総会の次第および議案資料（会則・組織図・活動計画など）は、総会資料ポータルでご確認いただけます。
+                </p>
+                <a href="https://izumicoinzoom-hash.github.io/manasemi/sokai/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 btn-gold rounded font-medium text-sm tracking-wide hover:shadow-lg transition">
+                    総会資料ページを開く
+                    <span class="text-xs opacity-90">→</span>
+                </a>
+                <p class="mt-3 text-xs text-brand-charcoal/60">別タブで開きます。QRコード・NFCでもアクセス可能です。</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-brand-dark text-brand-paper/70 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="font-display font-semibold text-brand-paper/90">マネゼミ 会員</p>
+                <ul class="flex flex-wrap justify-center gap-6 text-sm">
+                    <li><a href="../index.html" class="hover:text-brand-goldLight transition">トップ</a></li>
+                    <li><a href="../login.html" class="hover:text-brand-goldLight transition">再ログイン</a></li>
+                </ul>
+            </div>
+            <p class="mt-6 text-center text-xs text-brand-paper/50">© マネジメントゼミナール（マネゼミ）</p>
+        </div>
+    </footer>
+</body>
+</html>

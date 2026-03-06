@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マネゼミ | マネジメントゼミナール 公式</title>
+    <meta name="description" content="マネゼミ（マネジメントゼミナール）公式サイト。リーダーシップ・人間観・仕事観を学ぶ講座。志心の会、年間行事のご案内。">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="マネゼミ | マネジメントゼミナール 公式">
+    <meta property="og:description" content="リーダーシップ・人間成長を学ぶマネゼミ公式サイト。">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:locale" content="ja_JP">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#1a1f36', dark: '#12151f', paper: '#f7f6f3', gold: '#b8860b', goldLight: '#d4a84b', charcoal: '#2d3348' }
+                    },
+                    fontFamily: { serif: ['"Noto Serif JP"', 'serif'], sans: ['"Noto Sans JP"', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f7f6f3; color: #1a1f36; }
+        .font-display { font-family: 'Noto Serif JP', serif; }
+        .hero-pattern {
+            background-color: #1a1f36;
+            background-image: url("images/hero-background.png");
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-pattern::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(26,31,54,0.75) 0%, rgba(26,31,54,0.85) 100%);
+            pointer-events: none;
+        }
+        a:hover { transition: color 0.2s, opacity 0.2s; }
+        .btn-gold { background-color: #b8860b; color: #f7f6f3; }
+        .btn-gold:hover { background-color: #9a7209; color: #fff; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed top-0 w-full z-50 bg-brand-navy/95 backdrop-blur-sm border-b border-brand-charcoal/50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="index.html" class="font-display font-semibold text-xl text-brand-paper tracking-wide hover:opacity-90 transition">
+                    マネゼミ
+                </a>
+                <ul class="hidden md:flex items-center gap-8 text-brand-paper/90 text-sm font-medium">
+                    <li><a href="index.html" class="hover:text-brand-goldLight transition">ホーム</a></li>
+                    <li><a href="index.html#course" class="hover:text-brand-goldLight transition">講座内容</a></li>
+                    <li><a href="index.html#contact" class="hover:text-brand-goldLight transition">お問い合わせ</a></li>
+                    <li><a href="login.html" class="text-brand-goldLight font-medium hover:opacity-90 transition">会員ログイン</a></li>
+                </ul>
+                <div class="md:hidden flex items-center gap-3">
+                    <a href="index.html#course" class="text-brand-paper/80 text-sm">講座内容</a>
+                    <a href="login.html" class="text-brand-goldLight text-sm font-medium">会員ログイン</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="relative min-h-[85vh] flex items-center justify-center pt-20 hero-pattern">
+            <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                <p class="text-brand-goldLight/90 text-sm tracking-widest mb-6 font-sans">MANAGEMENT SEMINAR</p>
+                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-brand-paper leading-tight mb-6">
+                    リーダーシップと<br>人間成長を学ぶ場。
+                </h1>
+                <p class="text-brand-paper/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
+                    マネゼミは、人間観・人生観・仕事観、リーダーシップとフォロワーシップを学ぶ講座です。志心の会、年間行事で仲間とつながり続けます。
+                </p>
+                <a href="login.html" class="inline-block px-8 py-4 btn-gold rounded font-medium text-sm tracking-wide hover:shadow-lg transition mr-3">
+                    会員ログイン
+                </a>
+                <a href="index.html#contact" class="inline-block px-8 py-4 border border-brand-paper/60 text-brand-paper rounded font-medium text-sm tracking-wide hover:bg-brand-paper/10 transition">
+                    お問い合わせ
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 md:py-28 bg-brand-paper">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-display text-2xl md:text-3xl font-semibold text-brand-navy mb-4">マネゼミとは</h2>
+                <p class="text-brand-charcoal/90 leading-relaxed max-w-3xl">
+                    マネジメントゼミナール（マネゼミ）は、<strong>リーダーシップ・フォロワーシップ</strong>、<strong>人間観・人生観・仕事観</strong>、<strong>モチベーション</strong>などを学ぶ講座です。<br>
+                    自己確立、利他の心、ビジョン、組織を動かす力、習慣化といったテーマで、仲間とともに成長する場を提供しています。
+                </p>
+            </div>
+        </section>
+
+        <section id="course" class="py-20 md:py-28 bg-white border-t border-gray-100">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-display text-2xl md:text-3xl font-semibold text-brand-navy mb-12">講座内容</h2>
+                <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    <li class="border-l-4 border-brand-gold pl-6">
+                        <h3 class="font-display font-semibold text-brand-navy mb-2">人間観・人生観</h3>
+                        <p class="text-brand-charcoal/80 text-sm leading-relaxed">自己確立、利他の心、マズローの欲求、志とビジョン。</p>
+                    </li>
+                    <li class="border-l-4 border-brand-gold pl-6">
+                        <h3 class="font-display font-semibold text-brand-navy mb-2">仕事観・意思決定</h3>
+                        <p class="text-brand-charcoal/80 text-sm leading-relaxed">価値の交換、問題発見・解決、選択と決断。</p>
+                    </li>
+                    <li class="border-l-4 border-brand-gold pl-6">
+                        <h3 class="font-display font-semibold text-brand-navy mb-2">リーダーシップ</h3>
+                        <p class="text-brand-charcoal/80 text-sm leading-relaxed">率先垂範、主体性、相互信頼、フォロワーシップ。</p>
+                    </li>
+                    <li class="border-l-4 border-brand-gold pl-6">
+                        <h3 class="font-display font-semibold text-brand-navy mb-2">熱意・習慣化</h3>
+                        <p class="text-brand-charcoal/80 text-sm leading-relaxed">モチベーション、本気の方程式、習慣化のコツ。</p>
+                    </li>
+                    <li class="border-l-4 border-brand-gold pl-6">
+                        <h3 class="font-display font-semibold text-brand-navy mb-2">志心の会</h3>
+                        <p class="text-brand-charcoal/80 text-sm leading-relaxed">卒業生の例会。仲間同士の交流と学びの場です。</p>
+                    </li>
+                    <li class="border-l-4 border-brand-gold pl-6">
+                        <h3 class="font-display font-semibold text-brand-navy mb-2">年間行事</h3>
+                        <p class="text-brand-charcoal/80 text-sm leading-relaxed">オープンゼミ、オリエンテーション、第1〜7講、総会など。</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="py-20 md:py-28 bg-brand-paper">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-display text-2xl md:text-3xl font-semibold text-brand-navy mb-8">会員の皆さまへ</h2>
+                <p class="text-brand-charcoal/90 mb-6 max-w-2xl">
+                    会員の方はログインすると、<strong>協力金のご案内</strong>・<strong>年間カレンダー</strong>・<strong>講座動画</strong>・<strong>活動告知</strong>・<strong>総会資料</strong>をご利用いただけます。
+                </p>
+                <a href="login.html" class="inline-block px-8 py-4 btn-gold rounded font-medium text-sm tracking-wide hover:shadow-lg transition">
+                    会員ログイン
+                </a>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 md:py-28 hero-pattern">
+            <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                <h2 class="font-display text-2xl md:text-3xl font-semibold text-brand-paper mb-6">お問い合わせ</h2>
+                <p class="text-brand-paper/80 mb-10">講座・志心の会・その他ご質問はお気軽にどうぞ。</p>
+                <a href="contact.html" class="inline-block px-8 py-4 btn-gold rounded font-medium text-sm tracking-wide hover:shadow-lg transition">
+                    お問い合わせページへ
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-brand-dark text-brand-paper/70 py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="font-display font-semibold text-brand-paper/90">マネゼミ</p>
+                <ul class="flex flex-wrap justify-center gap-6 md:gap-8 text-sm">
+                    <li><a href="index.html" class="hover:text-brand-goldLight transition">ホーム</a></li>
+                    <li><a href="index.html#course" class="hover:text-brand-goldLight transition">講座内容</a></li>
+                    <li><a href="contact.html" class="hover:text-brand-goldLight transition">お問い合わせ</a></li>
+                    <li><a href="login.html" class="hover:text-brand-goldLight transition">会員ログイン</a></li>
+                </ul>
+            </div>
+            <p class="mt-8 text-center text-xs text-brand-paper/50">© マネジメントゼミナール（マネゼミ）</p>
+        </div>
+    </footer>
+</body>
+</html>
