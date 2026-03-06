@@ -1,0 +1,44 @@
+/* 総会資料ポータル - スマートフォン最適化 */
+
+:root {
+    --tap-target-min: 44px;
+    --font-size-body: 16px; /* iOS ズーム防止 */
+}
+
+html {
+    font-size: var(--font-size-body);
+    -webkit-text-size-adjust: 100%;
+}
+
+/* タップしやすいボタン・リンク領域 */
+.doc-link {
+    min-height: var(--tap-target-min);
+    -webkit-tap-highlight-color: rgba(184, 134, 11, 0.15);
+}
+
+.doc-link--disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* スマートフォンでの余白・タップ領域の確保 */
+@media (max-width: 640px) {
+    main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .doc-link {
+        padding: 1rem 1rem;
+    }
+}
+
+/* 印刷時は背景を抑える */
+@media print {
+    body {
+        background: #fff;
+    }
+    .doc-link--disabled {
+        background: #f5f5f5;
+    }
+}
