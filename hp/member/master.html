@@ -19,7 +19,7 @@
     <div class="max-w-4xl mx-auto px-4 py-8 md:py-12">
         <header class="mb-8">
             <h1 class="text-2xl md:text-3xl font-bold text-slate-800">マスターページ（編集用）</h1>
-            <p class="text-slate-600 mt-2">会員TOPの「年間カレンダー」と「直近の活動告知」は、<strong>data.js</strong> を編集すると更新されます。</p>
+            <p class="text-slate-600 mt-2">会員TOPの「年間カレンダー」「直近の講座動画」「直近の活動告知」は、<strong>data.js</strong> を編集すると更新されます。</p>
             <p class="mt-4"><a href="index.html" class="text-amber-700 font-medium hover:underline">← 会員TOPに戻る</a></p>
         </header>
 
@@ -27,7 +27,7 @@
             <h2 class="text-lg font-bold text-slate-800 mb-4">編集の流れ</h2>
             <ol class="list-decimal list-inside space-y-2 text-slate-700">
                 <li><strong>data.js</strong> をテキストエディタで開く。</li>
-                <li><strong>calendar</strong>（年間カレンダー）や <strong>announcements</strong>（直近の活動告知）の中身を編集する。</li>
+                <li><strong>calendar</strong>（年間カレンダー）・<strong>youtube</strong>（講座動画）・<strong>announcements</strong>（活動告知）の中身を編集する。</li>
                 <li>ファイルを保存し、会員TOP（index.html）を再読み込みして表示を確認する。</li>
             </ol>
         </section>
@@ -42,7 +42,16 @@
         </section>
 
         <section class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">2. 直近の活動告知（追加・変更）</h2>
+            <h2 class="text-lg font-bold text-slate-800 mb-4">2. 直近の講座動画（YouTube）</h2>
+            <p class="text-slate-600 text-sm mb-4">data.js の <code>youtube</code> 配列を編集します。各項目は <code>videoId</code>（YouTubeの動画ID）・<code>title</code>（表示タイトル）・<code>published</code>（公開日表示）です。配列の<strong>先頭</strong>が会員TOPで一番上に表示されます。</p>
+            <p class="text-sm text-slate-500 mb-2">現在の表示内容（data.js 読み込み後）：</p>
+            <div id="master-youtube" class="space-y-3 border border-gray-200 rounded p-4 text-sm">
+                <p class="text-gray-500">data.js を読み込んでいます…</p>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">3. 直近の活動告知（追加・変更）</h2>
             <p class="text-slate-600 text-sm mb-4">data.js の <code>announcements</code> 配列を編集します。各項目は <code>date</code>（日付）・<code>title</code>（タイトル）・<code>body</code>（本文）です。配列の<strong>先頭</strong>が会員TOPで一番上に表示されます。</p>
             <p class="text-sm text-slate-500 mb-2">現在の表示内容（data.js 読み込み後）：</p>
             <div id="master-announce" class="space-y-3 border border-gray-200 rounded p-4 text-sm">
@@ -55,6 +64,8 @@
             <p class="text-slate-600 text-sm mb-2">日付・会場が決まったら、該当する行の <code>date</code> や <code>venue</code> を書き換えます。</p>
             <pre>// 例：第1講の日付が 5/10、会場が 〇〇会館 の場合
 { month: "5月", event: "第1講", date: "5/10", venue: "〇〇会館" },</pre>
+            <p class="text-slate-600 text-sm mt-4 mb-2">動画を1本追加する場合は、youtube 配列にオブジェクトを追加します。videoId は YouTube の URL <code>?v=xxxxx</code> の xxxxx の部分です。</p>
+            <pre>{ videoId: "動画ID11文字", title: "第3講 講座タイトル", published: "2026/07/15" },</pre>
             <p class="text-slate-600 text-sm mt-4 mb-2">告知を1件追加する場合は、announcements 配列の先頭にオブジェクトを追加します。</p>
             <pre>{ date: "2026/04/01", title: "新着のお知らせ", body: "本文をここに書きます。" },</pre>
         </section>
@@ -68,6 +79,7 @@
         var d = window.MANASEMI_DATA;
         if (!d) {
           document.getElementById("master-calendar").innerHTML = "<p class=\"p-4 text-amber-700\">data.js が読み込めていません。ファイルパスを確認してください。</p>";
+          document.getElementById("master-youtube").innerHTML = "<p class=\"text-amber-700\">data.js が読み込めていません。</p>";
           document.getElementById("master-announce").innerHTML = "<p class=\"text-amber-700\">data.js が読み込めていません。</p>";
           return;
         }
@@ -78,6 +90,16 @@
           });
           table += "</tbody></table>";
           document.getElementById("master-calendar").innerHTML = table;
+        }
+        if (d.youtube) {
+          var yel = document.getElementById("master-youtube");
+          if (yel) {
+            var yHtml = "";
+            d.youtube.forEach(function(v, i) {
+              yHtml += "<div class=\"border-l-4 border-sky-400 pl-3 py-2 bg-sky-50/50\"><p class=\"text-gray-500\">[" + (i + 1) + "] videoId: " + escapeHtml(v.videoId) + " / 公開日: " + escapeHtml(v.published || "—") + "</p><p class=\"font-bold text-slate-800\">" + escapeHtml(v.title) + "</p></div>";
+            });
+            yel.innerHTML = yHtml || "<p class=\"text-gray-500\">動画は登録されていません。</p>";
+          }
         }
         if (d.announcements) {
           var html = "";

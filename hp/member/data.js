@@ -1,6 +1,6 @@
 /**
  * マネゼミ 会員TOP マスターデータ
- * このファイルを編集すると、会員TOPの「年間カレンダー」と「直近の活動告知」が自動で更新されます。
+ * このファイルを編集すると、会員TOPの「年間カレンダー」「直近の講座動画」「直近の活動告知」が自動で更新されます。
  * 保存後、会員TOP（index.html）を再読み込みしてご確認ください。
  */
 
@@ -18,6 +18,11 @@ window.MANASEMI_DATA = {
     { month: "11月", event: "第7講", date: "—", venue: "—" },
     { month: "—", event: "志心の会 … 全体例会", date: "—", venue: "—" },
     { month: "—", event: "総会（年度に応じて実施）", date: "—", venue: "—" }
+  ],
+
+  // 直近の講座動画（YouTube）。先頭が一番上に表示。videoId は YouTube の動画ID（例: dQw4w9WgXcQ）
+  youtube: [
+    { videoId: "dQw4w9WgXcQ", title: "【サンプル】直近講座タイトル（動画ID・タイトル・公開日を差し替えてください）", published: "YYYY/MM/DD" }
   ],
 
   // 直近の活動告知（新しいものが上）

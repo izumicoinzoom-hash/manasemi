@@ -116,20 +116,14 @@
                 <p class="mt-4 text-xs text-brand-charcoal/60">※ 日付・会場が決まり次第、上記を更新しています。編集は <a href="master.html" class="text-brand-gold hover:underline">マスターページ</a> の手順に従い <code>data.js</code> を変更してください。</p>
             </section>
 
-            <!-- 3. 直近の講座 YouTube 動画サムネイル -->
+            <!-- 3. 直近の講座動画（data.js の youtube で表示内容を管理） -->
             <section id="youtube" class="member-section-bg rounded-lg shadow-sm p-6 md:p-8" style="background-image: url('../images/youtube-bg.png');">
                 <h2 class="font-display text-xl md:text-2xl font-semibold text-brand-navy mb-6">直近の講座動画</h2>
                 <p class="text-brand-charcoal/80 text-sm mb-6">公開中の講座動画です。サムネイルをクリックでYouTubeで視聴できます。</p>
-                <div class="grid sm:grid-cols-2 gap-6">
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener" class="block group">
-                        <div class="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" alt="講座動画サムネイル" class="w-full h-full object-cover group-hover:opacity-90 transition">
-                        </div>
-                        <p class="mt-2 font-medium text-brand-navy text-sm md:text-base group-hover:text-brand-gold transition">【サンプル】直近講座タイトル（動画IDを差し替えてください）</p>
-                        <p class="text-xs text-brand-charcoal/60 mt-1">公開日：YYYY/MM/DD</p>
-                    </a>
+                <div id="youtube-list" class="grid sm:grid-cols-2 gap-6">
+                    <!-- data.js の youtube から描画 -->
                 </div>
-                <p class="mt-4 text-xs text-brand-charcoal/60">※ 動画ID・タイトル・公開日は実際の講座に合わせて更新してください。</p>
+                <p class="mt-4 text-xs text-brand-charcoal/60">※ 動画の追加・変更は <a href="master.html" class="text-brand-gold hover:underline">マスターページ</a> の手順に従い <code>data.js</code> を編集してください。</p>
             </section>
 
             <!-- 4. 直近の活動告知（data.js の announcements で表示内容を管理） -->
@@ -175,9 +169,11 @@
         var d = window.MANASEMI_DATA;
         var tbody = document.getElementById("calendar-tbody");
         var list = document.getElementById("announce-list");
+        var youtubeList = document.getElementById("youtube-list");
         if (!d) {
           if (tbody) tbody.innerHTML = "<tr><td colspan=\"4\" class=\"py-4 px-4 text-brand-charcoal/60\">データを読み込んでいます。表示されない場合は data.js をご確認ください。</td></tr>";
           if (list) list.innerHTML = "<p class=\"text-brand-charcoal/60 text-sm\">データを読み込んでいます。</p>";
+          if (youtubeList) youtubeList.innerHTML = "<p class=\"text-brand-charcoal/60 text-sm\">データを読み込んでいます。</p>";
           return;
         }
         if (tbody && d.calendar) {
@@ -185,7 +181,15 @@
             return "<tr class=\"border-b border-gray-200\"><td class=\"py-3 px-4 font-medium text-brand-navy\">" + escapeHtml(row.month) + "</td><td class=\"py-3 px-4\">" + escapeHtml(row.event) + "</td><td class=\"py-3 px-4\">" + escapeHtml(row.date) + "</td><td class=\"py-3 px-4\">" + escapeHtml(row.venue) + "</td></tr>";
           }).join("");
         }
-        var list = document.getElementById("announce-list");
+        if (youtubeList && d.youtube && d.youtube.length) {
+          youtubeList.innerHTML = d.youtube.map(function(v) {
+            var url = "https://www.youtube.com/watch?v=" + escapeHtml(v.videoId);
+            var thumb = "https://img.youtube.com/vi/" + escapeHtml(v.videoId) + "/mqdefault.jpg";
+            return "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener\" class=\"block group\"><div class=\"aspect-video bg-gray-200 rounded-lg overflow-hidden\"><img src=\"" + thumb + "\" alt=\"講座動画サムネイル\" class=\"w-full h-full object-cover group-hover:opacity-90 transition\"></div><p class=\"mt-2 font-medium text-brand-navy text-sm md:text-base group-hover:text-brand-gold transition\">" + escapeHtml(v.title) + "</p><p class=\"text-xs text-brand-charcoal/60 mt-1\">公開日：" + escapeHtml(v.published || "—") + "</p></a>";
+          }).join("");
+        } else if (youtubeList) {
+          youtubeList.innerHTML = "<p class=\"text-brand-charcoal/60 text-sm\">動画が登録されていません。data.js の youtube に追加してください。</p>";
+        }
         if (list && d.announcements) {
           list.innerHTML = d.announcements.map(function(a) {
             return "<article class=\"border-l-4 border-brand-gold pl-4 py-2\"><p class=\"text-xs text-brand-charcoal/60\">" + escapeHtml(a.date) + "</p><h3 class=\"font-display font-semibold text-brand-navy mt-1\">" + escapeHtml(a.title) + "</h3><p class=\"text-brand-charcoal/80 text-sm mt-2 leading-relaxed\">" + escapeHtml(a.body) + "</p></article>";
