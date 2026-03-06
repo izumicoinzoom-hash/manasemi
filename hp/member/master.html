@@ -3,117 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マスターページ（編集用） | マネゼミ</title>
+    <title>マスターページ（編集・保存） | マネゼミ</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Noto Sans JP', sans-serif; }
-        code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
-        pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-size: 0.85rem; }
+        .input-sm { font-size: 0.875rem; padding: 0.35rem 0.5rem; }
+        code { background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 0.2rem; font-size: 0.85em; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased">
     <div class="max-w-4xl mx-auto px-4 py-8 md:py-12">
-        <header class="mb-8">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-800">マスターページ（編集用）</h1>
-            <p class="text-slate-600 mt-2">会員TOPの「年間カレンダー」「直近の講座動画」「直近の活動告知」は、<strong>data.js</strong> を編集すると更新されます。</p>
-            <p class="mt-4"><a href="index.html" class="text-amber-700 font-medium hover:underline">← 会員TOPに戻る</a></p>
+        <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">マスターページ（編集・保存）</h1>
+                <p class="text-slate-600 mt-1 text-sm">カレンダー・講座動画・活動告知を編集し、保存ボタンで data.js をダウンロードできます。</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="button" id="btn-save" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition text-sm">
+                    data.js を保存（ダウンロード）
+                </button>
+                <a href="master-login.html" id="link-logout" class="text-sm text-slate-500 hover:text-amber-700">ログアウト</a>
+                <a href="index.html" class="text-sm text-slate-500 hover:text-amber-700">会員TOP</a>
+            </div>
         </header>
 
+        <!-- 1. 年間カレンダー -->
         <section class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">編集の流れ</h2>
-            <ol class="list-decimal list-inside space-y-2 text-slate-700">
-                <li><strong>data.js</strong> をテキストエディタで開く。</li>
-                <li><strong>calendar</strong>（年間カレンダー）・<strong>youtube</strong>（講座動画）・<strong>announcements</strong>（活動告知）の中身を編集する。</li>
-                <li>ファイルを保存し、会員TOP（index.html）を再読み込みして表示を確認する。</li>
-            </ol>
-        </section>
-
-        <section class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">1. 年間カレンダー（日付・会場の変更）</h2>
-            <p class="text-slate-600 text-sm mb-4">data.js の <code>calendar</code> 配列を編集します。各項目は <code>month</code>（月）・<code>event</code>（行事名）・<code>date</code>（日付）・<code>venue</code>（会場）です。</p>
-            <p class="text-sm text-slate-500 mb-2">現在の表示内容（data.js 読み込み後）：</p>
-            <div id="master-calendar" class="overflow-x-auto border border-gray-200 rounded text-sm">
-                <p class="p-4 text-gray-500">data.js を読み込んでいます…</p>
+            <h2 class="text-lg font-bold text-slate-800 mb-2">1. 年間カレンダー</h2>
+            <p class="text-slate-600 text-sm mb-4">月・行事・日付・会場を編集できます。行の追加・削除も可能です。</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b-2 border-slate-200 bg-slate-50">
+                            <th class="p-2 text-sm font-semibold text-slate-700">月</th>
+                            <th class="p-2 text-sm font-semibold text-slate-700">主な行事</th>
+                            <th class="p-2 text-sm font-semibold text-slate-700">日付</th>
+                            <th class="p-2 text-sm font-semibold text-slate-700">会場</th>
+                            <th class="p-2 w-20"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-tbody"></tbody>
+                </table>
             </div>
+            <button type="button" id="btn-add-calendar" class="mt-3 text-sm text-amber-700 hover:text-amber-800 font-medium">+ 行を追加</button>
         </section>
 
+        <!-- 2. 直近の講座動画 -->
         <section class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">2. 直近の講座動画（YouTube）</h2>
-            <p class="text-slate-600 text-sm mb-4">data.js の <code>youtube</code> 配列を編集します。各項目は <code>videoId</code>（YouTubeの動画ID）・<code>title</code>（表示タイトル）・<code>published</code>（公開日表示）です。配列の<strong>先頭</strong>が会員TOPで一番上に表示されます。</p>
-            <p class="text-sm text-slate-500 mb-2">現在の表示内容（data.js 読み込み後）：</p>
-            <div id="master-youtube" class="space-y-3 border border-gray-200 rounded p-4 text-sm">
-                <p class="text-gray-500">data.js を読み込んでいます…</p>
-            </div>
+            <h2 class="text-lg font-bold text-slate-800 mb-2">2. 直近の講座動画（YouTube）</h2>
+            <p class="text-slate-600 text-sm mb-4">動画ID・タイトル・公開日を編集。先頭が会員TOPで一番上に表示されます。</p>
+            <div id="youtube-list" class="space-y-4"></div>
+            <button type="button" id="btn-add-youtube" class="mt-3 text-sm text-amber-700 hover:text-amber-800 font-medium">+ 動画を追加</button>
         </section>
 
+        <!-- 3. 直近の活動告知 -->
         <section class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">3. 直近の活動告知（追加・変更）</h2>
-            <p class="text-slate-600 text-sm mb-4">data.js の <code>announcements</code> 配列を編集します。各項目は <code>date</code>（日付）・<code>title</code>（タイトル）・<code>body</code>（本文）です。配列の<strong>先頭</strong>が会員TOPで一番上に表示されます。</p>
-            <p class="text-sm text-slate-500 mb-2">現在の表示内容（data.js 読み込み後）：</p>
-            <div id="master-announce" class="space-y-3 border border-gray-200 rounded p-4 text-sm">
-                <p class="text-gray-500">data.js を読み込んでいます…</p>
-            </div>
+            <h2 class="text-lg font-bold text-slate-800 mb-2">3. 直近の活動告知</h2>
+            <p class="text-slate-600 text-sm mb-4">日付・タイトル・本文を編集。先頭が会員TOPで一番上に表示されます。</p>
+            <div id="announce-list" class="space-y-4"></div>
+            <button type="button" id="btn-add-announce" class="mt-3 text-sm text-amber-700 hover:text-amber-800 font-medium">+ 告知を追加</button>
         </section>
 
-        <section class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">data.js の編集例</h2>
-            <p class="text-slate-600 text-sm mb-2">日付・会場が決まったら、該当する行の <code>date</code> や <code>venue</code> を書き換えます。</p>
-            <pre>// 例：第1講の日付が 5/10、会場が 〇〇会館 の場合
-{ month: "5月", event: "第1講", date: "5/10", venue: "〇〇会館" },</pre>
-            <p class="text-slate-600 text-sm mt-4 mb-2">動画を1本追加する場合は、youtube 配列にオブジェクトを追加します。videoId は YouTube の URL <code>?v=xxxxx</code> の xxxxx の部分です。</p>
-            <pre>{ videoId: "動画ID11文字", title: "第3講 講座タイトル", published: "2026/07/15" },</pre>
-            <p class="text-slate-600 text-sm mt-4 mb-2">告知を1件追加する場合は、announcements 配列の先頭にオブジェクトを追加します。</p>
-            <pre>{ date: "2026/04/01", title: "新着のお知らせ", body: "本文をここに書きます。" },</pre>
-        </section>
-
-        <p class="text-center text-sm text-slate-500"><a href="index.html" class="text-amber-700 hover:underline">会員TOPに戻る</a></p>
+        <div class="flex flex-wrap gap-4">
+            <button type="button" id="btn-save-bottom" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition text-sm">data.js を保存（ダウンロード）</button>
+            <p class="text-slate-500 text-sm self-center">ダウンロードした <code>data.js</code> で <code>member/data.js</code> を上書きし、Git でコミット・プッシュすると会員TOPに反映されます。</p>
+        </div>
     </div>
 
+    <script>
+      (function() {
+        if (sessionStorage.getItem("masterAuth") !== "1") {
+          window.location.replace("master-login.html");
+          return;
+        }
+      })();
+    </script>
     <script src="data.js"></script>
     <script>
       (function() {
-        var d = window.MANASEMI_DATA;
-        if (!d) {
-          document.getElementById("master-calendar").innerHTML = "<p class=\"p-4 text-amber-700\">data.js が読み込めていません。ファイルパスを確認してください。</p>";
-          document.getElementById("master-youtube").innerHTML = "<p class=\"text-amber-700\">data.js が読み込めていません。</p>";
-          document.getElementById("master-announce").innerHTML = "<p class=\"text-amber-700\">data.js が読み込めていません。</p>";
-          return;
+        function escapeJsStr(s) {
+          if (s == null) return "";
+          return String(s)
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, "\\n")
+            .replace(/\r/g, "\\r");
         }
-        if (d.calendar) {
-          var table = "<table class=\"w-full text-left\"><thead><tr class=\"border-b bg-gray-50\"><th class=\"p-2\">月</th><th class=\"p-2\">主な行事</th><th class=\"p-2\">日付</th><th class=\"p-2\">会場</th></tr></thead><tbody>";
-          d.calendar.forEach(function(row) {
-            table += "<tr class=\"border-b\"><td class=\"p-2\">" + escapeHtml(row.month) + "</td><td class=\"p-2\">" + escapeHtml(row.event) + "</td><td class=\"p-2\">" + escapeHtml(row.date) + "</td><td class=\"p-2\">" + escapeHtml(row.venue) + "</td></tr>";
-          });
-          table += "</tbody></table>";
-          document.getElementById("master-calendar").innerHTML = table;
-        }
-        if (d.youtube) {
-          var yel = document.getElementById("master-youtube");
-          if (yel) {
-            var yHtml = "";
-            d.youtube.forEach(function(v, i) {
-              yHtml += "<div class=\"border-l-4 border-sky-400 pl-3 py-2 bg-sky-50/50\"><p class=\"text-gray-500\">[" + (i + 1) + "] videoId: " + escapeHtml(v.videoId) + " / 公開日: " + escapeHtml(v.published || "—") + "</p><p class=\"font-bold text-slate-800\">" + escapeHtml(v.title) + "</p></div>";
-            });
-            yel.innerHTML = yHtml || "<p class=\"text-gray-500\">動画は登録されていません。</p>";
-          }
-        }
-        if (d.announcements) {
-          var html = "";
-          d.announcements.forEach(function(a, i) {
-            html += "<div class=\"border-l-4 border-amber-500 pl-3 py-2 bg-amber-50/50\"><p class=\"text-gray-500\">[" + (i + 1) + "] " + escapeHtml(a.date) + "</p><p class=\"font-bold text-slate-800\">" + escapeHtml(a.title) + "</p><p class=\"text-slate-600 mt-1\">" + escapeHtml(a.body) + "</p></div>";
-          });
-          document.getElementById("master-announce").innerHTML = html || "<p class=\"text-gray-500\">告知はありません。</p>";
+
+        function rowCalendar(month, event, date, venue) {
+          month = month || ""; event = event || ""; date = date || ""; venue = venue || "";
+          return '<tr class="border-b border-slate-200 hover:bg-slate-50/50">' +
+            '<td class="p-2"><input type="text" class="calendar-month w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(month) + '" placeholder="3月"></td>' +
+            '<td class="p-2"><input type="text" class="calendar-event w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(event) + '" placeholder="行事名"></td>' +
+            '<td class="p-2"><input type="text" class="calendar-date w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(date) + '" placeholder="日付"></td>' +
+            '<td class="p-2"><input type="text" class="calendar-venue w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(venue) + '" placeholder="会場"></td>' +
+            '<td class="p-2"><button type="button" class="row-remove text-red-600 hover:text-red-700 text-xs">削除</button></td></tr>';
         }
         function escapeHtml(s) {
           if (s == null) return "";
-          var div = document.createElement("div");
-          div.textContent = s;
-          return div.innerHTML;
+          var d = document.createElement("div");
+          d.textContent = s;
+          return d.innerHTML;
         }
+
+        var d = window.MANASEMI_DATA || { calendar: [], youtube: [], announcements: [] };
+        if (!d.calendar || !d.calendar.length) d.calendar = [{ month: "", event: "", date: "", venue: "" }];
+        if (!d.youtube) d.youtube = [];
+        if (!d.announcements) d.announcements = [];
+
+        var tbody = document.getElementById("calendar-tbody");
+        d.calendar.forEach(function(r) {
+          tbody.insertAdjacentHTML("beforeend", rowCalendar(r.month, r.event, r.date, r.venue));
+        });
+
+        tbody.addEventListener("click", function(e) {
+          if (e.target.classList.contains("row-remove")) {
+            var tr = e.target.closest("tr");
+            if (tbody.querySelectorAll("tr").length > 1) tr.remove();
+          }
+        });
+
+        document.getElementById("btn-add-calendar").addEventListener("click", function() {
+          tbody.insertAdjacentHTML("beforeend", rowCalendar("", "", "", ""));
+        });
+
+        function itemYouTube(videoId, title, published) {
+          videoId = videoId || ""; title = title || ""; published = published || "";
+          return '<div class="youtube-item border border-slate-200 rounded-lg p-4 bg-slate-50/50 flex flex-wrap gap-3 items-start">' +
+            '<div class="flex-1 min-w-0 space-y-2">' +
+            '<input type="text" class="yt-videoId w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(videoId) + '" placeholder="動画ID（11文字）">' +
+            '<input type="text" class="yt-title w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(title) + '" placeholder="タイトル">' +
+            '<input type="text" class="yt-published w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(published) + '" placeholder="公開日（例: 2026/07/15）">' +
+            '</div>' +
+            '<button type="button" class="item-remove text-red-600 hover:text-red-700 text-sm">削除</button></div>';
+        }
+        var yList = document.getElementById("youtube-list");
+        d.youtube.forEach(function(v) {
+          yList.insertAdjacentHTML("beforeend", itemYouTube(v.videoId, v.title, v.published));
+        });
+        if (!d.youtube.length) yList.insertAdjacentHTML("beforeend", itemYouTube("", "", ""));
+
+        document.getElementById("btn-add-youtube").addEventListener("click", function() {
+          yList.insertAdjacentHTML("beforeend", itemYouTube("", "", ""));
+        });
+        yList.addEventListener("click", function(e) {
+          if (e.target.classList.contains("item-remove")) {
+            var el = e.target.closest(".youtube-item");
+            if (yList.querySelectorAll(".youtube-item").length > 1) el.remove();
+          }
+        });
+
+        function itemAnnounce(date, title, body) {
+          date = date || ""; title = title || ""; body = body || "";
+          return '<div class="announce-item border border-slate-200 rounded-lg p-4 bg-amber-50/30 flex flex-wrap gap-3">' +
+            '<div class="flex-1 min-w-0 space-y-2">' +
+            '<input type="text" class="ann-date w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(date) + '" placeholder="日付（例: 2026/03/15）">' +
+            '<input type="text" class="ann-title w-full border border-slate-300 rounded input-sm" value="' + escapeHtml(title) + '" placeholder="タイトル">' +
+            '<textarea class="ann-body w-full border border-slate-300 rounded input-sm resize-y min-h-[60px]" placeholder="本文">' + escapeHtml(body) + '</textarea>' +
+            '</div>' +
+            '<button type="button" class="item-remove text-red-600 hover:text-red-700 text-sm">削除</button></div>';
+        }
+        var aList = document.getElementById("announce-list");
+        d.announcements.forEach(function(a) {
+          aList.insertAdjacentHTML("beforeend", itemAnnounce(a.date, a.title, a.body));
+        });
+        if (!d.announcements.length) aList.insertAdjacentHTML("beforeend", itemAnnounce("", "", ""));
+
+        document.getElementById("btn-add-announce").addEventListener("click", function() {
+          aList.insertAdjacentHTML("beforeend", itemAnnounce("", "", ""));
+        });
+        aList.addEventListener("click", function(e) {
+          if (e.target.classList.contains("item-remove")) {
+            var el = e.target.closest(".announce-item");
+            if (aList.querySelectorAll(".announce-item").length > 1) el.remove();
+          }
+        });
+
+        function collectData() {
+          var calendar = [];
+          tbody.querySelectorAll("tr").forEach(function(tr) {
+            calendar.push({
+              month: (tr.querySelector(".calendar-month") && tr.querySelector(".calendar-month").value) || "—",
+              event: (tr.querySelector(".calendar-event") && tr.querySelector(".calendar-event").value) || "—",
+              date: (tr.querySelector(".calendar-date") && tr.querySelector(".calendar-date").value) || "—",
+              venue: (tr.querySelector(".calendar-venue") && tr.querySelector(".calendar-venue").value) || "—"
+            });
+          });
+          var youtube = [];
+          yList.querySelectorAll(".youtube-item").forEach(function(el) {
+            var vid = el.querySelector(".yt-videoId") && el.querySelector(".yt-videoId").value;
+            var tit = el.querySelector(".yt-title") && el.querySelector(".yt-title").value;
+            var pub = el.querySelector(".yt-published") && el.querySelector(".yt-published").value;
+            if (vid || tit || pub) youtube.push({ videoId: vid || "", title: tit || "", published: pub || "" });
+          });
+          var announcements = [];
+          aList.querySelectorAll(".announce-item").forEach(function(el) {
+            var date = el.querySelector(".ann-date") && el.querySelector(".ann-date").value;
+            var title = el.querySelector(".ann-title") && el.querySelector(".ann-title").value;
+            var body = el.querySelector(".ann-body") && el.querySelector(".ann-body").value;
+            if (date || title || body) announcements.push({ date: date || "", title: title || "", body: body || "" });
+          });
+          return { calendar: calendar, youtube: youtube, announcements: announcements };
+        }
+
+        function buildDataJs(data) {
+          var lines = [
+            "/**",
+            " * マネゼミ 会員TOP マスターデータ",
+            " * このファイルを編集すると、会員TOPの「年間カレンダー」「直近の講座動画」「直近の活動告知」が自動で更新されます。",
+            " * 保存後、会員TOP（index.html）を再読み込みしてご確認ください。",
+            " */",
+            "",
+            "window.MANASEMI_DATA = {",
+            "  calendar: ["
+          ];
+          data.calendar.forEach(function(r, i) {
+            var comma = i < data.calendar.length - 1 ? "," : "";
+            lines.push('    { month: "' + escapeJsStr(r.month) + '", event: "' + escapeJsStr(r.event) + '", date: "' + escapeJsStr(r.date) + '", venue: "' + escapeJsStr(r.venue) + '" }' + comma);
+          });
+          lines.push("  ],");
+          lines.push("  youtube: [");
+          data.youtube.forEach(function(v, i) {
+            var comma = i < data.youtube.length - 1 ? "," : "";
+            lines.push('    { videoId: "' + escapeJsStr(v.videoId) + '", title: "' + escapeJsStr(v.title) + '", published: "' + escapeJsStr(v.published) + '" }' + comma);
+          });
+          lines.push("  ],");
+          lines.push("  announcements: [");
+          data.announcements.forEach(function(a, i) {
+            var comma = i < data.announcements.length - 1 ? "," : "";
+            lines.push('    { date: "' + escapeJsStr(a.date) + '", title: "' + escapeJsStr(a.title) + '", body: "' + escapeJsStr(a.body) + '" }' + comma);
+          });
+          lines.push("  ]");
+          lines.push("};");
+          return lines.join("\n");
+        }
+
+        function doSave() {
+          var data = collectData();
+          var content = buildDataJs(data);
+          var blob = new Blob([content], { type: "application/javascript" });
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "data.js";
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }
+
+        document.getElementById("btn-save").addEventListener("click", doSave);
+        document.getElementById("btn-save-bottom").addEventListener("click", doSave);
+
+        document.getElementById("link-logout").addEventListener("click", function() {
+          sessionStorage.removeItem("masterAuth");
+        });
       })();
     </script>
 </body>

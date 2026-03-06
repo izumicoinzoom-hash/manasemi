@@ -12,6 +12,9 @@
 | `member/index.html` | **会員TOP**（協力金・カレンダー・YouTube・活動告知・総会資料の5ブロック） |
 | `member/success.html` | Stripe 支払い完了後の表示ページ |
 | `member/cancel.html` | Stripe 支払いキャンセル時の表示ページ |
+| `member/master-login.html` | **マスターページ**用ログイン（コード入力） |
+| `member/master.html` | マスターページ（カレンダー・動画・告知の編集・data.js ダウンロード） |
+| `member/master-config.js` | マスターページのアクセスコード（運用時に変更すること） |
 
 Stripe の Payment Link で **success_url** に `member/success.html`、**cancel_url** に `member/cancel.html` の絶対URLを指定してください。詳細は **`Stripe設定.md`** を参照。
 
@@ -22,6 +25,13 @@ Stripe の Payment Link で **success_url** に `member/success.html`、**cancel
 3. **直近の講座動画** … YouTube サムネイル＋リンク（動画ID・タイトルを差し替え）
 4. **直近の活動告知** … カード形式の告知（日付・タイトル・概要を編集）
 5. **総会資料** … 総会資料ポータル（https://izumicoinzoom-hash.github.io/manasemi/sokai/）へのリンク
+
+## マスターページ（編集・保存）
+
+会員TOPのカレンダー・講座動画・活動告知は **data.js** で管理されています。**master.html** からフォームで編集し、「data.js を保存」でファイルをダウンロードして `member/data.js` を上書きできます。
+
+- アクセス: **member/master.html**（未ログイン時は **member/master-login.html** にリダイレクト）
+- ログイン: **master-login.html** でコードを入力。コードは **master-config.js** の `MANASEMI_MASTER_CODE` で設定。運用時に必ず変更してください。
 
 ## 画像
 
