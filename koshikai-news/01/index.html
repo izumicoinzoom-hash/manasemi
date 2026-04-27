@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マネゼミ講師会通信 No.01 — 第1講リハーサル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700;900&family=Cormorant+Garamond:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0E2340;
+    --navy-soft: #1a3556;
+    --gold: #B08D57;
+    --gold-soft: #d4b787;
+    --paper: #f8f4ea;
+    --paper-soft: #fdfaf2;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --line: #E5DFD0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 16px;
+  }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+  /* Masthead */
+  .masthead {
+    background: var(--navy);
+    color: #fff;
+    padding: 48px 0 56px;
+    border-bottom: 4px solid var(--gold);
+    position: relative;
+  }
+  .masthead::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-soft) 50%, var(--gold) 100%);
+  }
+  .masthead-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 18px; margin-bottom: 28px;
+    font-family: 'Cormorant Garamond', 'Noto Serif JP', serif;
+    font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .masthead h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 900;
+    font-size: 2.4rem;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .masthead .issue {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; letter-spacing: 0.3em;
+    color: var(--gold-soft);
+    margin-bottom: 8px;
+  }
+  .masthead .subtitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.15rem; font-weight: 500;
+    color: rgba(255,255,255,0.92);
+    border-left: 3px solid var(--gold); padding-left: 14px;
+    margin-top: 18px;
+  }
+  .meta {
+    margin-top: 28px;
+    display: flex; flex-wrap: wrap; gap: 14px 28px;
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.8);
+  }
+  .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta .icon { color: var(--gold-soft); }
+  .tags { margin-top: 14px; }
+  .tag {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem; letter-spacing: 0.15em;
+    background: rgba(176,141,87,0.15);
+    color: var(--gold-soft);
+    border: 1px solid var(--gold-soft);
+    padding: 3px 10px;
+    margin-right: 6px;
+    border-radius: 2px;
+  }
+
+  /* Hero image */
+  .hero { margin: -28px auto 0; max-width: 980px; padding: 0 24px; position: relative; z-index: 2; }
+  .hero figure {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid var(--line);
+    box-shadow: 0 14px 40px rgba(14,35,64,0.18);
+  }
+  .hero img { width: 100%; display: block; }
+  .hero figcaption {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem; color: var(--ink-soft);
+    text-align: center; padding: 12px 8px 4px;
+    font-style: italic;
+  }
+
+  /* Body */
+  article { padding: 56px 0 80px; }
+  .lead {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.18rem; font-weight: 500;
+    border-left: 4px solid var(--gold);
+    padding: 4px 0 4px 20px;
+    margin-bottom: 40px;
+    color: var(--navy);
+  }
+  h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--navy);
+    margin: 56px 0 22px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--navy);
+    position: relative;
+  }
+  h2::before {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 60px; height: 2px; background: var(--gold);
+  }
+  h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--navy);
+    margin: 36px 0 14px;
+    padding-left: 14px;
+    border-left: 4px solid var(--gold);
+  }
+  p { margin-bottom: 18px; }
+  p strong { color: var(--navy); font-weight: 700; background: linear-gradient(transparent 60%, rgba(176,141,87,0.25) 60%); padding: 0 2px; }
+  ol, ul { margin: 0 0 24px 28px; }
+  li { margin-bottom: 8px; }
+
+  /* Figure */
+  figure.inline {
+    margin: 28px 0;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 14px rgba(14,35,64,0.06);
+  }
+  figure.inline img { width: 100%; display: block; }
+  figure.inline figcaption {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.88rem; color: var(--ink-soft);
+    padding: 10px 6px 4px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Quote */
+  blockquote {
+    margin: 28px 0;
+    padding: 24px 28px;
+    background: #fff;
+    border-left: 5px solid var(--gold);
+    box-shadow: 0 2px 10px rgba(14,35,64,0.04);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.08rem; line-height: 1.85;
+    color: var(--navy);
+    position: relative;
+  }
+  blockquote::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 700;
+    position: absolute; top: -14px; left: 14px;
+    color: var(--gold-soft); line-height: 1;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.88rem; color: var(--ink-soft);
+    font-style: normal; letter-spacing: 0.05em;
+  }
+  blockquote cite::before { content: '— '; color: var(--gold); }
+
+  /* Table */
+  .table-wrap {
+    margin: 24px 0;
+    background: #fff; border: 1px solid var(--line);
+    box-shadow: 0 2px 10px rgba(14,35,64,0.04);
+    overflow-x: auto;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+  th { background: var(--navy); color: #fff; font-weight: 500; font-family: 'Noto Serif JP', serif; letter-spacing: 0.05em; }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { font-weight: 500; color: var(--navy); }
+  tr:nth-child(even) td { background: var(--paper-soft); }
+
+  /* Footer */
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.85);
+    padding: 40px 0 32px; margin-top: 60px;
+    border-top: 4px solid var(--gold);
+  }
+  footer .container { font-size: 0.88rem; line-height: 1.8; }
+  footer .colophon { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.2em; font-size: 0.78rem; color: var(--gold-soft); margin-bottom: 14px; text-transform: uppercase; }
+  footer hr { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 18px 0; }
+  footer .source { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
+
+  /* Section divider */
+  .divider {
+    text-align: center;
+    margin: 48px 0;
+    color: var(--gold);
+    letter-spacing: 0.5em;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .divider::before, .divider::after {
+    content: ''; display: inline-block; width: 80px; height: 1px;
+    background: var(--gold); vertical-align: middle; margin: 0 14px;
+  }
+
+  /* Note */
+  .note {
+    margin: 32px 0; padding: 16px 22px;
+    background: var(--paper-soft); border: 1px dashed var(--gold-soft);
+    font-size: 0.92rem; color: var(--ink-soft);
+    border-radius: 2px;
+  }
+
+  /* Venue gallery */
+  .venue-hero figure {
+    margin: 28px 0;
+    background: #fff;
+    padding: 12px;
+    border: 1px solid var(--line);
+    box-shadow: 0 6px 20px rgba(14,35,64,0.10);
+  }
+  .venue-hero img { width: 100%; display: block; }
+  .venue-hero figcaption {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem; color: var(--ink-soft);
+    padding: 12px 6px 4px;
+    font-style: italic;
+    text-align: center;
+  }
+  .venue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 28px 0;
+  }
+  .venue-grid figure {
+    margin: 0;
+    background: #fff;
+    padding: 8px;
+    border: 1px solid var(--line);
+    box-shadow: 0 2px 10px rgba(14,35,64,0.06);
+  }
+  .venue-grid img {
+    width: 100%; height: 220px;
+    object-fit: cover; display: block;
+  }
+  .venue-grid figcaption {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.82rem; color: var(--ink-soft);
+    padding: 8px 4px 2px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  @media (max-width: 600px) {
+    .venue-grid { grid-template-columns: 1fr; }
+    .venue-grid img { height: 240px; }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .masthead h1 { font-size: 1.7rem; }
+    .masthead-top { flex-direction: column; gap: 8px; align-items: flex-start; }
+    h2 { font-size: 1.3rem; }
+    h3 { font-size: 1.05rem; }
+    article { padding: 40px 0 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-top">
+      <span>MANAZEMI &middot; KOSHIKAI NEWS</span>
+      <span>No. 01 / Apr 27, 2026</span>
+    </div>
+    <div class="issue">ISSUE 01</div>
+    <h1>第1講リハーサル — 16期、ここから始まる</h1>
+    <p class="subtitle">5時間プログラムの最終調整と、福嶋講師の60分講話実演。<br>「玄関」の作り方が、次回までの宿題に。</p>
+    <div class="meta">
+      <span><span class="icon">📅</span> 2026年4月27日（日） 13:30–16:50</span>
+      <span><span class="icon">📍</span> フクシマ建材（菊池市泗水町南田島1099）</span>
+    </div>
+    <div class="tags">
+      <span class="tag">講師会</span>
+      <span class="tag">第1講リハ</span>
+      <span class="tag">16期</span>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <figure>
+    <img src="photos/IMG_9379.JPG" alt="会場全景">
+    <figcaption>フクシマ建材の会議室。プロジェクターには本日のキーワード「人間観 — 見えている現実を通して、意図する半質を見る」</figcaption>
+  </figure>
+</div>
+
+<article>
+  <div class="container">
+
+    <p class="lead">5月16日、第16期マネジメントリーダーゼミ第1講「人間関係 — 人間観のつくり方」の本番に向けて、講師会のメンバーが一堂に会し、5時間プログラムの最終調整と、福嶋講師の60分講話リハーサルを実施。<strong>「自慢タイム短縮 → ディベート追加」「休憩を3回挿入」</strong>という二大改修で、初回の5時間がぐっと締まった。</p>
+
+    <blockquote>
+      過ぎるのが当たり前の文化はマネゼミとしてどうか
+      <cite>議論の中で投げかけられた問い</cite>
+    </blockquote>
+
+    <div class="divider">◆</div>
+
+    <h2>当日の流れ</h2>
+
+    <h3>1. 開幕：清田から「事務局ボット」のデモ</h3>
+
+    <figure class="inline">
+      <img src="photos/IMG_9377.JPG" alt="ボットのデモ画面を共有しながらの議論">
+      <figcaption>ノートPCと外部モニターに事務局ボットの動作画面。AI時代の運営支援ツールが、講師会の議論にそのまま投入される景色</figcaption>
+    </figure>
+
+    <p>清田兼明氏が、公式LINEに自動でリマインドを投げる事務局ボットを試作・披露。「俺じゃなくてこいつらが頼りになる」と語る一方で、「兼明君が頼りになる」と現場からのツッコミも。AI活用の波がマネゼミ運営にも届きつつある。</p>
+
+    <h3>2. 第1講タイムスケジュールの再設計</h3>
+
+    <p>5時間プログラムを全員で精査。決まった改修は次の通り。</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>項目</th><th>修正前</th><th>修正後</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>自慢タイム</td><td>30分</td><td><strong>15分</strong></td></tr>
+          <tr><td>ディベート</td><td>なし</td><td><strong>追加（25分前後）</strong></td></tr>
+          <tr><td>休憩</td><td>1回</td><td><strong>3回</strong>（5分×2＋福嶋講義後10分）</td></tr>
+          <tr><td>OBエール</td><td>30分（全員）</td><td>時間調整バッファ／来場OBのみ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>ディベート設計</strong>：お題1個・賛成／反対の二項対立。考える時間5分＋10分・10分の論戦＋OB判定。</p>
+
+    <blockquote>
+      世の中、時間厳守は当たり前。守ることを推奨し、60分に1回は休憩を入れる方針で動きましょう
+      <cite>吉田会長</cite>
+    </blockquote>
+
+    <h3>3. 福嶋講師、60分の講話リハーサル</h3>
+
+    <p>第1講担当・福嶋智和氏が、本番想定の講話を実演。</p>
+
+    <figure class="inline">
+      <img src="photos/IMG_9368.JPG" alt="第1講プログラム">
+      <figcaption>第1講プログラム — タイムテーブルと本講のねらい</figcaption>
+    </figure>
+
+    <h3>講話の骨格</h3>
+
+    <ol>
+      <li><strong>問い「なぜここに来たのか」</strong>から始まる。受講生それぞれの胸に手を当てさせる。</li>
+      <li><strong>リーダーとは「他者を動機づける／巻き込む／共に向かう存在」</strong>。リーダーの仕事の本質は人間関係にある。</li>
+      <li><strong>自問自答の習慣化</strong>。「他力本願」（依存）ではなく、「自分で問い、自分で答える」自分を鍛える。</li>
+      <li><strong>人間観の3つの問い</strong>：自分自身をどう見るか／自分をOKと言えるか／他者とどう関わっているか。</li>
+      <li><strong>TAOKチェック → 基本構えグラフ（4象限）</strong>で、自分の傾向を可視化する。</li>
+    </ol>
+
+    <figure class="inline">
+      <img src="photos/IMG_9371.JPG" alt="TAOKチェックリスト">
+      <figcaption>TAOKチェックリスト 40問。受講生は自己評価を行い、結果を4象限グラフにプロット</figcaption>
+    </figure>
+
+    <figure class="inline">
+      <img src="photos/IMG_9372.JPG" alt="TAOK基本構え">
+      <figcaption>TAOK基本構え — 「自分OK／他人OK」の4象限。自分の人間関係の傾向を客観視する</figcaption>
+    </figure>
+
+    <ol start="6">
+      <li><strong>マネゼミの大事な考え方</strong>：成果＝考え方 × 熱意 × 能力。</li>
+    </ol>
+
+    <blockquote>
+      稲盛さんは"結果"と書かれていますが、マネゼミではあえて"成果"を使います。<br>
+      成し遂げたいことを掲げ、行動を起こした先のものが成果です
+      <cite>福嶋講師</cite>
+    </blockquote>
+
+    <ol start="7">
+      <li><strong>吉田松陰「夢なき者に成功なし」</strong>。次講「人生と志」への接続。</li>
+    </ol>
+
+    <h3>福嶋講師の自己エピソード</h3>
+
+    <blockquote>
+      私が4期で受講した時、会社は3〜4人で赤字。いつ潰れるかわからない状態でした。<br>
+      あの時に「人の役に立つ人間になる」と決めた。それを繰り返すうちに、行動が変わってきた
+      <cite>福嶋講師</cite>
+    </blockquote>
+
+    <p>抽象論を、自身の体験で接地させる導入が印象的だった。</p>
+
+    <h3>4. フィードバックタイム</h3>
+
+    <figure class="inline">
+      <img src="photos/IMG_9378.JPG" alt="講師同士のフィードバック議論">
+      <figcaption>リハーサル後のフィードバック。先輩講師が身振りを交えて指摘するシーン。マネゼミの「思想的土台」は、こうした場で毎回再確認される</figcaption>
+    </figure>
+
+    <p>最初に手を挙げたのは、去年の第1講担当・國元氏。</p>
+
+    <blockquote>
+      去年は「自己確立と人間観」が第1講のテーマでした。<br>
+      今期は「人間観」のみで、第2講が「人生と志」。<br>
+      「自己確立」をどこでどう扱うか、玄関（入り口）の構成が薄くなっていないか気になります
+      <cite>國元氏</cite>
+    </blockquote>
+
+    <p>中野信子氏の脳科学（運のいい人）も、去年は入っていたが今期は外れている。<strong>「玄関」の作り方</strong>が、フィードバックの最大の論点になりそうだ。</p>
+
+    <h3>5. 各講師からの追加フィードバック</h3>
+
+    <p>議論はリハーサル直後から休憩を挟まず継続。具体的な構成変更案が次々に出た。</p>
+
+    <h3>清田からの2つの提案</h3>
+
+    <blockquote>
+      TAOKを先にやった方がいいんじゃないかな。<br>
+      「自問自答」「他人もOKでなきゃいけない」と先に言ってしまうと、<br>
+      シートが「正解探し」になっちゃう。ゼロ状態でTAOKやった上で講義に入った方が、<br>
+      「あー」って腹落ちするのかな
+      <cite>清田兼明氏</cite>
+    </blockquote>
+
+    <blockquote>
+      心出しの発表は、しない方がいい。立派すぎる心出しを発表しちゃうと、みんな考えなくなる。<br>
+      心出しを念出するのが、このマネゼミの7ヶ月で一番上手があるところ。<br>
+      講師が先にそこを発表すると、よくないのかな
+      <cite>清田兼明氏</cite>
+    </blockquote>
+
+    <p>講師側が「正解」を見せすぎると、受講生の自分で考えるプロセスが奪われる、という構造的な指摘。発表は「やった結果、今こうなった」という事実報告型に切り替える方向で合意。</p>
+
+    <h3>穴井からの問い直し</h3>
+
+    <blockquote>
+      前回と大きく違うのは、松尾会長中心の真似ゼミじゃないというところ。<br>
+      受講者がどう認知するか、ぶっちゃけよく分からないんですけど、<br>
+      福嶋さんのこの1個目で言うなら、僕はもっと詰め込んだ方がいいと思う
+      <cite>穴井氏</cite>
+    </blockquote>
+
+    <p>毎回「詰め込みすぎ」という意見が出るが、本質情報の密度は保ちたい — そんな問題提起。松尾講師の10〜15分があるなら、<strong>村田会長の10〜15分も入れてはどうか</strong>という案も浮上。</p>
+
+    <h3>吉田会長からの本質的指摘</h3>
+
+    <p>議論を引き締める形で、吉田会長（松尾HDC元代表）が「観」と「人間関係」の関係を整理し直した。</p>
+
+    <blockquote>
+      「観」というものは、自分とは別に標準であり、原理原則。本質なんだ。<br>
+      だから観を考えると、自分が分からないことが分かるようになる
+      <cite>吉田会長</cite>
+    </blockquote>
+
+    <blockquote>
+      ホモサピエンスは、もともと弱かったから、家族を超えて部族の市で繋がることができた。<br>
+      連なる、連体が連なる、手と手が繋がる。<br>
+      一つだけ出たら離れるわけです。そこをどうやって喋るかは別として、<br>
+      意識を持って喋った方が伝わると思います
+      <cite>吉田会長</cite>
+    </blockquote>
+
+    <p>「強がること」ではなく「弱かったからこそ繋がれた」というホモサピエンス本能の話と、吉田松陰の生活が日本を変えたという成果論。<strong>第1講「人間観」の核となる視座</strong>として、講話に織り込まれることになった。</p>
+
+    <div class="divider">◆</div>
+
+    <h2>本日の主要決定</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>項目</th><th>修正前</th><th>修正後</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>TAOKの位置</td><td>講話の中盤</td><td><strong>講話の冒頭</strong>（ゼロ状態で先にやる）</td></tr>
+          <tr><td>心出しの発表</td><td>あり</td><td><strong>なし</strong>（事実報告型に変更）</td></tr>
+          <tr><td>講義時間</td><td>60分</td><td>50分目安に短縮検討</td></tr>
+          <tr><td>第1講冒頭の場作り</td><td>未定</td><td><strong>福嶋が自ら登壇</strong></td></tr>
+          <tr><td>村田会長の出番</td><td>なし</td><td>10〜15分の枠を検討</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>TAOK採点シートの整備</h3>
+
+    <p>受講生が毎回「書き方が分からない」「必死型になる」状態が続いていた。今期から整備する。</p>
+
+    <ul>
+      <li><strong>記入欄を分離</strong>：A欄に○△×、B欄に点数（○=10点、△=5点、×=0点）</li>
+      <li><strong>計算欄付きの採点紙</strong>：列ごとに合計、最終100点換算</li>
+      <li><strong>計算式入り説明書</strong>：受講生が初見でも完結する</li>
+      <li>次回リハーサルまでに叩き台 → 2週間前に受講生へ配布</li>
+    </ul>
+
+    <blockquote>
+      整理しようよ。整理しようよ。毎回、毎回みんな忘れるよ
+      <cite>議論の中での発言</cite>
+    </blockquote>
+
+    <h3>資料配布のタイミング変更</h3>
+
+    <p>これまでは当日渡しだったが、今期から<strong>タイムテーブルとワーク資料を2週間前に配布</strong>。ただし講義内容（PAO系・メニシアなど）は含めず、ワーク部分のみ事前共有。事前に答えを調べる行動を防ぐ意図。</p>
+
+    <div class="divider">◆</div>
+
+    <h2>次の節目</h2>
+
+    <h3>第2講 打ち合わせ</h3>
+    <p>2026年6月1日（月）に確定済。</p>
+
+    <h3>第3講 打ち合わせ</h3>
+    <p>2026年7月1日（火）または7月2日（水）／場所：伊勢利氏宅</p>
+
+    <h3>マネゼミ甲子会 研修旅行</h3>
+    <p>当初の5月31日予定が欠席者続出でリスケ。6月・7月の土日、9月（シルバーウィーク／結婚式）まで全滅したが、最終的に<strong>2026年10月17日（土）〜18日（日） 京都で確定</strong>。</p>
+
+    <blockquote>
+      もう決めたら今度はもう、リスケなしよ
+      <cite>吉田会長</cite>
+    </blockquote>
+
+    <div class="divider">◆</div>
+
+    <h2>第2講に向けて</h2>
+
+    <figure class="inline">
+      <img src="photos/IMG_9373.JPG" alt="第2講レジュメ「人生と志」">
+      <figcaption>第2講レジュメは創設者・松尾孝氏の作。「あなたはどんな種を遺しますか？」が問いの核</figcaption>
+    </figure>
+
+    <p>第2講は2026年6月17日（水）14:00-19:00、テーマ「人生と志」、担当：穴井・光澤、課題図書「生き方」（稲盛和夫）。</p>
+
+    <figure class="inline">
+      <img src="photos/IMG_9370.JPG" alt="夢を導き出す30の質問">
+      <figcaption>第2講事前課題「夢を導き出す30の質問」。提出先：清田、期限 5/9</figcaption>
+    </figure>
+
+    <p>なお、振り返り講義の問題は、本日の議論で部分的に整理された。<strong>第1講冒頭の「場作り」（目的提示）は、福嶋氏自身が登壇</strong>することになった。</p>
+
+    <blockquote>
+      私が振り返りをするということで、2個目から振り返りの出番があったらいい。<br>
+      1個目だけは冒頭に俺から何か喋ろうかと
+      <cite>福嶋講師</cite>
+    </blockquote>
+
+    <p>ただし<strong>第2講冒頭の「第1講振り返り講義」の登壇者は依然として未確定</strong>。代役を立てる必要は残っている。本日のリハ録音と本ニュースレター、そして松尾会長作成の第2講レジュメを使えば、代役の準備時間は最小化可能だ。</p>
+
+    <div class="divider">◆</div>
+
+    <h2>会場紹介 — フクシマ建材</h2>
+
+    <p>本日のリハーサル会場は、<strong>第1講担当・福嶋講師の自社オフィス</strong>。菊池市泗水町、緑に囲まれた立地に建つ、清潔感のあるブリック調の社屋。</p>
+
+    <div class="venue-hero">
+      <figure>
+        <img src="photos/IMG_9388.JPG" alt="フクシマ建材 メイン棟">
+        <figcaption>FUKUSHIMA BUILDING MATERIALS — 力強いロゴが掲げられたメイン棟。倉庫機能と事務所が同じ敷地内に併存する</figcaption>
+      </figure>
+    </div>
+
+    <div class="venue-grid">
+      <figure>
+        <img src="photos/IMG_9387.JPG" alt="エントランス">
+        <figcaption>ブリック調の正面エントランス。レンガと白壁のコントラストが落ち着いた佇まい</figcaption>
+      </figure>
+      <figure>
+        <img src="photos/IMG_9389.JPG" alt="駐車場と社屋全景">
+        <figcaption>広い駐車場から見た社屋全景。各地から集まる講師陣を迎える場として申し分ない動線</figcaption>
+      </figure>
+      <figure>
+        <img src="photos/IMG_9385.JPG" alt="玄関とスリッパ">
+        <figcaption>玄関のスリッパが整然と並ぶ。「準備された場」が、議論の質をそのまま支える</figcaption>
+      </figure>
+      <figure>
+        <img src="photos/IMG_9384.JPG" alt="階段と植栽">
+        <figcaption>階段脇のパキラと胡蝶蘭。日常的に手入れされている空気が伝わる</figcaption>
+      </figure>
+      <figure>
+        <img src="photos/IMG_9383.JPG" alt="社内オフィス">
+        <figcaption>1階オフィスは開放的なオープンプラン。ホワイトボードのカンバン、整理されたデスク</figcaption>
+      </figure>
+      <figure>
+        <img src="photos/IMG_9386.JPG" alt="2階の会議エリア">
+        <figcaption>本日のリハーサル会場へ続く廊下。集中するに十分な静謐さ</figcaption>
+      </figure>
+    </div>
+
+    <p>講師会のリハーサルが、講師自身の「日常の現場」で行われる。これも、マネゼミが「思想の言葉」を「経営の現場」に着地させる団体であることの一つの表れかもしれない。福嶋講師、本日もありがとうございました。</p>
+
+    <div class="divider">◆</div>
+
+    <h2>編集後記</h2>
+
+    <figure class="inline">
+      <img src="photos/IMG_9380.JPG" alt="講師会の終盤">
+      <figcaption>リハの終盤、スクリーンに映る「人間観」を背に、各講師がそれぞれのノートに向かう。設計会議と実演と同期確認が、一日で同じ部屋で動いた</figcaption>
+    </figure>
+
+    <p>リハーサルというより、設計会議＋実演＋同期確認が一日で動く密度の高い場だった。「過ぎるのが当たり前の文化はマネゼミとしてどうか」という清田氏の問いと、「世の中、時間厳守は当たり前」と返す吉田会長のやりとりに、この団体の思想的土台が、毎回その場で再生産されている手触りがあった。</p>
+
+    <p>「玄関」の議論は次回までの宿題。お楽しみに。</p>
+
+    <p>もう一つ、本日の最終局面でひっそりと決まったこと。10月17・18日、京都行きが確定した。「もう決めたら、リスケなしよ」という吉田会長の言葉が、一日の議論の濃さを締めくくった。<strong>マネゼミは、決めたら走る団体である</strong>ということを、改めて思い出させる夕方だった。</p>
+
+    <p>研修旅行までに、第1講・第2講・第3講の3つの本番を駆け抜ける。今号に詰め込んだ決定の数々が、その3講の手触りを変えていくはずだ。</p>
+
+  </div>
+</article>
+
+<footer>
+  <div class="container">
+    <div class="colophon">Manazemi · Koshikai News · Issue 01</div>
+    <p>マネゼミ講師会通信 No.01 / 発行：運営参謀 / 編集協力：本日の参加講師全員</p>
+    <hr>
+    <p class="source">出典：サークルバック議事録（meeting ID: 8315451）／配布資料／本日の写真</p>
+  </div>
+</footer>
+
+</body>
+</html>
